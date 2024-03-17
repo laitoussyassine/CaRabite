@@ -5,7 +5,6 @@ import Database from "./config/connectDb.js";
 
 const app = express();
 
-
 // connect to db
 const db = new Database(process.env.DB_URL, process.env.DB_NAME);
 db.connectionDb();
