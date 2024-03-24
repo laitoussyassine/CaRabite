@@ -3,7 +3,7 @@ import Joi from "joi";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const CarOwnerSchema = new mongoose(
+const CarOwnerSchema = new mongoose.Schema(
     {
         username: {
             type: String,
@@ -39,7 +39,4 @@ const CarOwnerSchema = new mongoose(
 )
 
 const CarOnwer = mongoose.model("CarOnwer", CarOwnerSchema);
-
-module.exports = {
-    CarOnwer
-};
+export default CarOnwer

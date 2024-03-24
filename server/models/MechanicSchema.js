@@ -63,6 +63,4 @@ const MecanicShema = new mongoose.Schema(
     }
 )
 const Mechanic = mongoose.model("Mechanic", MecanicShema);
-module.exports = {
-    Mechanic
-};
+export default Mechanic
