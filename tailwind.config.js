@@ -7,7 +7,9 @@ export default {
   theme: {
     extend: {
       colors:{
-        btnbg:"#011e9f"
+        btnbg:"#011e9f",
+        mainColoe: "#032098",
+        loginBg:"#f4e101"
       }
     },
   },
