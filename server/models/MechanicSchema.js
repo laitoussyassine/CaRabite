@@ -59,7 +59,6 @@ const MecanicShema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
-
     }
 )
 const Mechanic = mongoose.model("Mechanic", MecanicShema);
