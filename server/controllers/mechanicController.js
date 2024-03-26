@@ -22,18 +22,36 @@ export const getSingleMechanic = async(req,res) => {
 export const getAllMechanics = async(req,res) => {
    
     try {
-        const mechanics = await Mechanic.find({}).select("-password");
+        // Extract search parameters from request body or query string
+        const { city, address, service } = req.body; // Assuming these parameters are sent via request body
+
+        // Construct a base query
+        let query = {};
+
+        // Add conditions based on search parameters
+        if (city) {
+            query['workshopBranches.city'] = city; // Assuming city is the ObjectId of the city
+        }
+        if (address) {
+            query['workshopBranches.address'] = address;
+        }
+        if (service) {
+            query['workshopServices'] = service; // Assuming service is the ObjectId of the service
+        }
+
+        // Execute the search query
+        const mechanics = await Mechanic.find(query).select("-password");
 
         res.status(200).json({
             success: true,
             message: "Mechanics Found",
             data: mechanics
-        })
+        });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Not Found"
-        })
+            message: "Internal Server Error"
+        });
     }
 }
 
