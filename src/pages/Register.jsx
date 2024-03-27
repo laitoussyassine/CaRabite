@@ -5,28 +5,28 @@ import robot from '../images/Robotics-cuate.svg'
 
 
 function Register() {
-    const [selcetedFile, setSelectedFile] = useState(null);
-    const [previewURL, setPreviewURL] = useState("");
+    // const [selcetedFile, setSelectedFile] = useState(null);
+    // const [previewURL, setPreviewURL] = useState("");
     
     const [formData, setFormData] = useState({
-        name:'',
+        username:"",
         email: "",
-        phone: "",
         password: "",
-        photo:selcetedFile,
         role:"carowner"
     });
     const handleInputChange = e => {
-        setFormData({...form, [e.target.name]: e.target.value})
+        setFormData({...formData, [e.target.name]: e.target.value})
+        console.log(e.target.value);
     }
 
-    const handleFileInputChange = async (e) => {
-        const file = e.target.files[0];
-        console.log(file);
-    }
+    // const handleFileInputChange = async (e) => {
+    //     const file = e.target.files[0];
+    //     console.log(file);
+    // }
 
     const submitHandler = (e) => {
-        e.preventDefault()
+        e.preventDefault()  
+        console.log(formData);
     } 
     return (
         <section className="grid grid-cols-4 mx-20 my-10">
@@ -50,10 +50,11 @@ function Register() {
                             </div>
                             <div className="mb-4">
                                 <label className="block mb-1.5 text-sm text-gray-900 font-semibold" htmlFor="">Username</label>
-                                <input 
-                                value={formData.name}
+                                <input
+                                value={formData.username}
                                 onChange={handleInputChange}
-                                className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg" type="email" placeholder="username" />
+                                name="username"
+                                className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg" type="text" placeholder="username" />
                             </div>  
                             <div className="mb-4">
                                 <label
@@ -61,6 +62,7 @@ function Register() {
                                 <input
                                 value={formData.email}
                                 onChange={handleInputChange}
+                                name="email"
                                 className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg" type="email" placeholder="pat@saturn.dev" />
                             </div>
                             <div className="mb-4">
@@ -68,16 +70,17 @@ function Register() {
                                 <input 
                                 value={formData.password}
                                 onChange={handleInputChange}
-                                className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg" type="email" placeholder="password" />
+                                name="password"
+                                className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg" type="text" placeholder="password" />
                             </div>
-                            <div className="mb-4">
+                            {/* <div className="mb-4">
                                 <label className="block mb-1.5 text-sm text-gray-900 font-semibold" htmlFor="">Phone Number</label>
                                 <input 
                                 value={formData.phone}
                                 onChange={handleInputChange}
                                 name='phone'
                                 className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg" type="email" placeholder="phoneNumber" />
-                            </div>
+                            </div> */}
                            
                             <button className="relative group block w-full mb-4 py-3 px-5 text-center text-sm font-semibold text-orange-50 bg-btnbg rounded-full overflow-hidden" type="submit">
                                 <div className="absolute top-0 right-full w-full h-full bg-gray-900 transhtmlForm group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>

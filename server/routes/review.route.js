@@ -1,14 +1,14 @@
 import express from "express";
 import {
-    getAllCarOnwers,
+    getAllReviews,
     createReview
 } from '../controllers/reviewController.js'
 import { authenticate, restrict } from "../util/verifyToken.js";
 
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 
 router.route('/')
-    .get(getAllCarOnwers)
-    .post(authenticate,restrict(['caronwer']),createReview)
+    .get(getAllReviews)
+    .post(authenticate,restrict(['carowner']),createReview);
 
 export default router;

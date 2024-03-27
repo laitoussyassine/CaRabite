@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import Mechanic from '../models/MechanicSchema.js';
-import CarOnwer from '../models/CarOwnerSchema.js';
+import CarOwner from '../models/CarOwnerSchema.js';
 
 export const authenticate = async(req,res,next)=>{
     const gettoken = req.headers.authorization;
@@ -21,6 +21,7 @@ export const authenticate = async(req,res,next)=>{
 
         next();
     } catch (error) {
+        console.log(error);
         if(error.name === "TokenExpirederror") {
             return res.status(401).json({
                 message:'Token Is Expired'
@@ -39,17 +40,17 @@ export const restrict = roles => async(req,res,next) => {
     const userId = req.userId;
 
     let user;
-    const caronwer = await CarOnwer.findById(userId);
+    const carowner = await CarOwner.findById(userId);
     const mechanic = await Mechanic.findById(userId);
 
-    if(caronwer) {
-        user=caronwer
+    if(carowner) {
+        user=carowner
     }
     if(mechanic) {
         user=mechanic
     }
 
-    if(!roles.includes(user.id)) {
+    if(!roles.includes(user.role)) {
         return res.status(401).json({
             success: false,
             message: "You're Not Authorized"

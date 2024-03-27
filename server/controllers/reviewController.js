@@ -1,9 +1,8 @@
-import CarOWner from '../models/CarOwnerSchema.js'
 import Mechanic from '../models/MechanicSchema.js'
 import Review from '../models/ReviewSchema.js'
 
 
-export const getAllReviews = (req,res) => {
+export const getAllReviews = async (req,res) => {
     try {
         const reviews = await Review.find({})
         res.status(200).json({
@@ -21,7 +20,8 @@ export const getAllReviews = (req,res) => {
 
 export const createReview = async(req,res) => {
     if(!req.body.mechanic) req.body.mechanic = req.params.mechanicId
-    if(!req.body.caronwer) req.body.caronwer = req.caronwerId
+    if(!req.body.carowner) req.body.carowner = req.userId
+    console.log(req.body.carowner);
 
     const newReview = new Review(req.body);
 
@@ -30,7 +30,7 @@ export const createReview = async(req,res) => {
         await Mechanic.findByIdAndUpdate(req.body.mechanic, {
             $push:{reviews: saveReview._id}
         })
-
+        
         res.status(200).json({
             success: true,
             message:"Review Successfully Submited",

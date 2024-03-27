@@ -22,12 +22,6 @@ const CarOwnerSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
-        phone: {
-            type: String,
-            required: true,
-            unique: true,
-            trim: true
-        },
         role: {
             type: String,
             enum: ['carowner', "admin"],
@@ -38,5 +32,5 @@ const CarOwnerSchema = new mongoose.Schema(
     { timestamps: true }
 )
 
-const CarOnwer = mongoose.model("CarOnwer", CarOwnerSchema);
-export default CarOnwer
+const CarOwner = mongoose.model("CarOwner", CarOwnerSchema);
+export default CarOwner

@@ -21,7 +21,7 @@ const NavBar = () => {
             )}
           </button>
         </div>
-        <div className={`${menuOpen ? 'flex flex-col' : 'hidden'} w-full md:w-auto md:flex text-left text-bold mt-5 md:mt-0 `}>
+        <div className={`${menuOpen ? 'flex flex-col' : 'hidden'} w-full md:w-auto md:flex flex-row text-left text-bold mt-5 md:mt-0`}>
           <a href="#" className="block md:inline-block text-lg text-black hover:text-mainColoe font-bold px-3 py-3   ">Home</a>
           <a href="#" className="block md:inline-block text-lg text-black hover:text-mainColoe font-bold px-3 py-3   ">About</a>
           <a href="#" className="block md:inline-block text-lg text-black hover:text-mainColoe font-bold px-3 py-3   ">Contact</a>

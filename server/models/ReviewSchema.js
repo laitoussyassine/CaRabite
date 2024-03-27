@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Mechanic from "./MechanicSchema.js";
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -6,9 +7,9 @@ const reviewSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "Mechanic",
     },
-    carOnwer: {
+    carowner: {
       type: mongoose.Types.ObjectId,
-      ref: "CarOnwer",
+      ref: "CarOwner",
     },
     reviewText: {
       type: String,
@@ -24,5 +25,36 @@ const reviewSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+reviewSchema.pre(/^find/, function(next){
+  this.populate({
+    path: "carowner",
+    select: "username"
+  });
+  next();
+});
+
+reviewSchema.statics.calcAverageRatings = async function (mechanicId) {
+  // this points the current review
+  const stats = await this.aggregate([
+    {
+    $match: { mechanic: mechanicId },
+    },
+    {
+      $group: {
+        _id: "$mechanic",
+        numOfRating: { $sum: 1 },
+        avgRating: {$avg: "$rating" },
+      },
+    },
+  ]);
+  await Mechanic.findByIdAndUpdate(mechanicId, {
+    totalRating: stats[0].numOfRating,
+    averageRating: stats[0].avgRating
+  })
+  };
+  reviewSchema.post("save", function () {
+  this.constructor.calcAverageRatings (this.mechanic);
+  });
 
 export default mongoose.model("Review", reviewSchema);

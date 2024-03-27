@@ -7,6 +7,7 @@ import Database from "./config/connectDb.js";
 import authRoute from './routes/auth.route.js'
 import carOwnerRoute from './routes/carOwner.route.js'
 import MechanicRoute from './routes/mechanic.route.js'
+import ReviewRoute from './routes/review.route.js'
 const app = express();
 
 
@@ -25,6 +26,7 @@ app.use(cors());
 app.use('/api/auth', authRoute);
 app.use('/api/carowners', carOwnerRoute);
 app.use('/api/mechanic', MechanicRoute);
+app.use('/api/reviews', ReviewRoute);
 
 
 const server = app.listen(port, () => {

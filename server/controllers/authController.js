@@ -1,4 +1,4 @@
-import CarOWner from '../models/CarOwnerSchema.js'
+import CarOwner from '../models/CarOwnerSchema.js'
 import Mechanic from '../models/MechanicSchema.js'
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken"
@@ -14,12 +14,12 @@ const generateToken = (user) => {
 }
 
 export const register = async(req,res) => {
-    const {username, email, password, phone, role } = req.body;
+    const {username, email, password, role } = req.body;
     try {
         let user = null
 
         if(role==='carowner') {
-            user = await CarOWner.findOne({email})
+            user = await CarOwner.findOne({email})
         }
         if(role==='mechanic') {
             user = await Mechanic.findOne({email})
@@ -34,11 +34,10 @@ export const register = async(req,res) => {
         const hashPassword = await bcrypt.hash(password, salt)
 
         if(role==="carowner") {
-            user = new CarOWner({
+            user = new CarOwner({
                 username,
                 email,
                 password:hashPassword,
-                phone,
                 role
             })
         }
@@ -47,7 +46,6 @@ export const register = async(req,res) => {
                 username,
                 email,
                 password:hashPassword,
-                phone,
                 role
             })
         }
@@ -58,6 +56,7 @@ export const register = async(req,res) => {
             message: "user created successfully"
         })
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             success: false,
             message: "Internal Server Error, Please Try Again"
@@ -69,7 +68,7 @@ export const login = async(req,res) => {
     const {email, password} = req.body;
     try {
         let user = null
-        const carowner = await CarOWner.findOne({email});
+        const carowner = await CarOwner.findOne({email});
         const mechanic = await Mechanic.findOne({email});
 
         if(carowner) {
