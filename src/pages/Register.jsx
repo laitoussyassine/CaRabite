@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import robot from '../images/Robotics-cuate.svg'
+import mechanic from '../images/mechanic.jpg'
 import { clearMessage } from "../store/features/auth/authSlice.js";
 import { register } from "../store/features/auth/authAction.js";
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +23,7 @@ function Register() {
         username: "",
         email: "",
         password: "",
+        phone: "",
         role: "carowner"
     });
     const { loading, message, isRegisterSuccess } = useSelector((state) => state.auth);
@@ -53,7 +54,7 @@ function Register() {
     return (
         <section className="grid grid-cols-4 mx-20 my-10">
             <div className="lg:col-span-2 col-span-full">
-                <img className="block h-full w-full object-cover" src={robot} alt="" />
+                <img className="block h-2/4 w-full object-contain" src={mechanic} alt="" />
             </div>
             <div className="lg:col-span-2 col-span-full">
                 <div className="w-2/3 mx-auto  ">
@@ -94,6 +95,14 @@ function Register() {
                                 onChange={handleInputChange}
                                 name="password"
                                 className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg" type="password" placeholder="password" />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block mb-1.5 text-sm text-gray-900 font-semibold" htmlFor="">Phone Number</label>
+                            <input
+                                value={formData.phone}
+                                onChange={handleInputChange}
+                                name="phone"
+                                className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg" type="text" placeholder="+212 78965439" />
                         </div>
                         {/* <div className="mb-4">
                                 <label className="block mb-1.5 text-sm text-gray-900 font-semibold" htmlFor="">Phone Number</label>

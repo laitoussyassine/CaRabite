@@ -22,6 +22,12 @@ const CarOwnerSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
+        phone: {
+            type: String,
+            required: true,
+            unique: true,
+            trim: true
+        },
         role: {
             type: String,
             enum: ['carowner', "admin"],

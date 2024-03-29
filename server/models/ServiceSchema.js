@@ -3,7 +3,7 @@ const ServiceSchema = new mongoose.Schema(
     {
         servicename: {
             type: String,
-            required: rtue,
+            required: true,
             unique: true,
             trim: true
         }

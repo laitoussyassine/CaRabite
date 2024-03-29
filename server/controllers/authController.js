@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken"
 
 
 const generateToken = (user) => {
-    return jwt.sign({id:user._id, role:user.role},
+    return jwt.sign({id:user._id, role:user.role, name:user.username, email:user.email},
         process.env.ACCESS_TOKEN_SECRET,
         {
             expiresIn: "10m"      
@@ -14,20 +14,24 @@ const generateToken = (user) => {
 }
 
 export const register = async(req,res) => {
-    const {username, email, password, role } = req.body;
+    const {username, email, password, phone, role } = req.body;
     try {
-        let user = null
+        let user;
 
-        if(role==='carowner') {
-            user = await CarOwner.findOne({email})
-        }
-        if(role==='mechanic') {
-            user = await Mechanic.findOne({email})
+        //chech email 
+
+        const CarOwnerEmailExist = await CarOwner.findOne({email});
+        const CarOwnerPhoneExist =  await CarOwner.findOne({phone});
+        const MechanicPhoneExist =  await Mechanic.findOne({phone});
+        const MechanicEmailExist = await Mechanic.findOne({email});
+
+
+        if ( CarOwnerPhoneExist || MechanicPhoneExist ) {
+            return res.status(400).json({message:'phone already exist'})
         }
 
-        // check if user already exist
-        if(user) {
-            return res.status(400).json({message:'user already exist'})
+        if (CarOwnerEmailExist || MechanicEmailExist) {
+            return res.status(400).json({message:'email already exist'})
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -38,6 +42,7 @@ export const register = async(req,res) => {
                 username,
                 email,
                 password:hashPassword,
+                phone,
                 role
             })
         }
@@ -46,6 +51,7 @@ export const register = async(req,res) => {
                 username,
                 email,
                 password:hashPassword,
+                phone,
                 role
             })
         }
@@ -114,3 +120,22 @@ export const login = async(req,res) => {
         })
     }
 } 
+
+
+export const logout = (req, res) => {
+    try {
+        res.cookie("clearjwt", "", {
+            httpOnly: true,
+            expires: new Date(0)
+        })
+      return res.status(200).json({
+        success: true,
+        message: "Logout success"
+      });
+    } catch (err) {
+      return res.status(500).json({
+        success: false,
+        message: err.message || "Oops something went wrong"
+      });
+    }
+  }
