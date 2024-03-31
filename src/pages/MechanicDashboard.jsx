@@ -1,14 +1,17 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
 import { parseJwt } from '../function/decodedToken';
 
 const MechanicDashboard = () => {
-  const { user } = useSelector((state) => state.auth);
+  const [mechanicInfo, setMechanicInfo] = useState("");
 
-  const mechanicInfo = parseJwt(user);
-  console.log(mechanicInfo);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setMechanicInfo(parseJwt(token)); 
+  }, []); 
+
+  const {name} = mechanicInfo
   return (
-    <div>hello {mechanicInfo.name}</div>  
+    <div>hello {name}</div>  
   )
 }
 

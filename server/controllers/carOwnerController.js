@@ -70,3 +70,31 @@ export const deleteCarOnwer = async(req,res) => {
         })
     }
 }
+
+
+export const getCarOwnerProfile = async(req,res) => {
+    const carOwnerID = req.carOwnerId;
+
+    try {
+        const carowner = await CarOwner.find(carOwnerID);
+
+        if(!carowner){
+            return res.status(404).json({
+                success: false,
+                message: 'Caronwer Not Found'
+            })
+        }
+        const {password, ...rest} = carowner._doc;
+        return res.status(200).json({
+            success: true,
+            message: 'Caronwer Profile Info',
+            data:{...rest}
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Oops Somthing Went Wrong'
+        })
+    }
+
+}

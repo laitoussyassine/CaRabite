@@ -90,3 +90,31 @@ export const deleteMechanic = async(req,res) => {
         })
     }
 }
+
+
+export const getMechanicProfile = async(req,res) => {
+    const mechanicID = req.mechanicId;
+
+    try {
+        const mechanic = await Mechanic.find(mechanicID);
+
+        if(!mechanic){
+            return res.status(404).json({
+                success: false,
+                message: 'Mechanic Not Found'
+            })
+        }
+        const {password, ...rest} = mechanic._doc;
+        return res.status(200).json({
+            success: true,
+            message: 'Mechanic Profile Info',
+            data:{...rest}
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Oops Somthing Went Wrong'
+        })
+    }
+
+}

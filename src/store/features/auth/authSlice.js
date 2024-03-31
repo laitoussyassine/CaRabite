@@ -3,7 +3,7 @@ import { register, login, logout } from "./authAction.js";
 
 const initialState = {
     user: localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null,
-    role: "",
+    role: localStorage.getItem('role') ? JSON.parse(localStorage.getItem('role')) : null,
     loading: false,
     isRegisterSuccess: false,
     isLoginSuccess: false,
@@ -43,6 +43,7 @@ const authSlice = createSlice({
             state.role = action.payload.role,
             state.message = action.payload.message
             localStorage.setItem('token', JSON.stringify(action.payload.token));
+            localStorage.setItem('role', JSON.stringify(action.payload.role));
         })
         builder.addCase(login.rejected, (state, action) => {
             state.loading = false,
@@ -52,9 +53,10 @@ const authSlice = createSlice({
         builder.addCase(logout.fulfilled, (state, action) => {
             state.loggedOut = true,
             localStorage.removeItem('token'),
+            localStorage.removeItem('role'),
             state.logOutMessage = action.payload.message,
-            state.user = null
-            
+            state.user = null,
+            state.role = null
         })
     }
 })
