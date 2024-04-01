@@ -9,7 +9,10 @@ export default {
       colors:{
         btnbg:"#011e9f",
         mainColoe: "#032098",
-        loginBg:"#f4e101"
+        loginBg:"#f4e101",
+        cardBg: "#2F3967",
+        cardHoverBg: "#2750a4",
+        textCardColor: "#cedcf5"
       }
     },
   },

@@ -51,8 +51,8 @@ const NavBar = () => {
           <Link to={'/contact'} className="block md:inline-block text-lg text-black hover:text-mainColoe font-bold px-3 py-3   ">Contact</Link>
         </div>
         <div className={`${menuOpen ? 'flex flex-col gap-4' : 'hidden'} w-full md:w-auto md:flex gap-1`}>
-          <Link to="/login" className={`toggle ${menuOpen ? 'flex' : 'hidden'} md:flex w-full md:w-auto px-4 py-2 text-right bg-mainColoe font-mono hover:bg-blue-500 text-white rounded-full`}>Login</Link>
-          <Link to="/register" className={`toggle ${menuOpen ? 'flex' : 'hidden'} md:flex w-full md:w-auto px-4 py-2 text-right bg-mainColoe font-mono hover:bg-blue-500 text-white rounded-full`}>Register</Link>
+          <Link to="/login" className={`toggle ${menuOpen ? 'flex' : 'hidden'} md:flex w-full md:w-auto px-4 py-2 text-right bg-mainColoe font-mono hover:bg-blue-500 text-white `}>Login</Link>
+          <Link to="/register" className={`toggle ${menuOpen ? 'flex' : 'hidden'} md:flex w-full md:w-auto px-4 py-2 text-right bg-mainColoe font-mono hover:bg-blue-500 text-white `}>Register</Link>
           {user && <button onClick={logoutHandler} className={`toggle ${menuOpen ? 'flex' : 'hidden'} md:flex w-full md:w-auto px-4 py-2 text-right bg-btnbg font-mono hover:bg-blue-500 text-white md:rounded`}>Logout</button>}
         </div>
       </nav>
