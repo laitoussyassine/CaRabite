@@ -4,7 +4,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import { Toaster } from 'react-hot-toast';
-import Acoount from "./dashboard/carowner/Acoount"
+import Acoount from "./dashboard/user/Acoount"
 import Dashboard from "./dashboard/mechanic/Dashboard"
 import ProtectedRoutes from "./routes/ProtectedRoutes"
 
@@ -18,8 +18,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register"element={<Register />}/>
-        <Route path="carowner/profile/me" element={ 
-        <ProtectedRoutes allowedRole={['carowner']}>
+        <Route path="user/profile/me" element={ 
+        <ProtectedRoutes allowedRole={['user']}>
           <Acoount />
         </ProtectedRoutes>}/>
         <Route path="mechanic/profile/me" element={ 

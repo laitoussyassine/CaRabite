@@ -20,8 +20,7 @@ function Register() {
         username: "",
         email: "",
         password: "",
-        phone: "",
-        role: "carowner"
+        role: "user"
     });
     const { loading, message, isRegisterSuccess } = useSelector((state) => state.auth);
 
@@ -60,7 +59,7 @@ function Register() {
                                 <LabelField title="Are You a:"/>
                                 <select name="role" id="" value={formData.role}
                                     onChange={handleInputChange} className="flex w-full">
-                                    <option value="carOwner">carOwner</option>
+                                    <option value="user">user</option>
                                     <option value="mechanic">mechanic</option>
                                 </select>
                             </Div>
@@ -88,14 +87,7 @@ function Register() {
                                     name="password"
                                     type="password" placeholder="password" />
                             </Div>
-                            <Div >
-                            <LabelField title={"Phone Number"}/>
-                                <Input
-                                    value={formData.phone}
-                                    onChange={handleInputChange}
-                                    name="phone"
-                                    type="text" placeholder="+212 78965439" />
-                            </Div>
+                            
                             <ButtonAuth disabled={loading}>
                             <span className="relative">{loading ? <HashLoader size={23} color="#fff" /> : "Signup"}</span>
                             </ButtonAuth>

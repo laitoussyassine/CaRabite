@@ -3,9 +3,6 @@ const ServiceSchema = new mongoose.Schema(
     {
         servicename: {
             type: String,
-            required: true,
-            unique: true,
-            trim: true
         }
     },
     { timestamps: true }

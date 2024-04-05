@@ -1,33 +1,33 @@
-import CarOwner from '../models/CarOwnerSchema.js'
+import User from '../models/UserSchema.js'
 
 
-export const getSingleCarOnwer = async(req,res) => {
+export const getSingleUser = async(req,res) => {
     const id = req.params.id;
     try {
-        const caronwer = await CarOwner.findById(id).select("-password");
+        const user = await User.findById(id).select("-password");
 
         res.status(200).json({
             success: true,
-            message: "Carowner Found",
-            data: caronwer
+            message: "user Found",
+            data: user
         })
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Carowner Not Found"
+            message: "user Not Found"
         })
     }
 }
 
-export const getAllCarOnwers = async(req,res) => {
+export const getAllUsers = async(req,res) => {
    
     try {
-        const caronwers = await CarOwner.find({}).select("-password");
+        const users = await User.find({}).select("-password");
 
         res.status(200).json({
             success: true,
-            message: "Carsonwers Found",
-            data: caronwers
+            message: "users Found",
+            data: users
         })
     } catch (error) {
         res.status(500).json({
@@ -37,15 +37,15 @@ export const getAllCarOnwers = async(req,res) => {
     }
 }
 
-export const updateCarOnwer = async(req,res) => {
+export const updateUser = async(req,res) => {
     const id = req.params.id;
     try {
-        const updateCarOnwer = await CarOwner.findByIdAndUpdate(id, {$set:req.body}, {new:true})
+        const updateUser = await User.findByIdAndUpdate(id, {$set:req.body}, {new:true})
 
         res.status(200).json({
             success: true,
             message: "Successfully updated",
-            data: updateCarOnwer
+            data: updateUser
         })
     } catch (error) {
         res.status(500).json({
@@ -54,10 +54,10 @@ export const updateCarOnwer = async(req,res) => {
         })
     }
 }
-export const deleteCarOnwer = async(req,res) => {
+export const deleteUser = async(req,res) => {
     const id = req.params.id;
     try {
-        await CarOwner.findByIdAndDelete(id)
+        await User.findByIdAndDelete(id)
 
         res.status(200).json({
             success: true,
@@ -72,22 +72,22 @@ export const deleteCarOnwer = async(req,res) => {
 }
 
 
-export const getCarOwnerProfile = async(req,res) => {
-    const carOwnerID = req.carOwnerId;
+export const getUserProfile = async(req,res) => {
+    const userID = req.userId;
 
     try {
-        const carowner = await CarOwner.find(carOwnerID);
+        const user = await User.find(userID);
 
-        if(!carowner){
+        if(!user){
             return res.status(404).json({
                 success: false,
-                message: 'Caronwer Not Found'
+                message: 'user Not Found'
             })
         }
-        const {password, ...rest} = carowner._doc;
+        const {password, ...rest} = user._doc;
         return res.status(200).json({
             success: true,
-            message: 'Caronwer Profile Info',
+            message: 'user Profile Info',
             data:{...rest}
         })
     } catch (error) {

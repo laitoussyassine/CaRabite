@@ -1,19 +1,11 @@
-import mongoose from "mongoose"
-import joi from "joi"
+// City.js
 
-const CitySchema = new mongoose.Schema(
-  {
-    cityname: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-    }
-  },
-  { timestamps: true }
-);
+import mongoose from 'mongoose';
 
-const City = mongoose.model("City", CitySchema);
-module.exports = {
-    City
-};
+const citySchema = new mongoose.Schema({
+    name: String
+});
+
+const City = mongoose.model('City', citySchema);
+
+export default City;

@@ -20,8 +20,8 @@ export const getAllReviews = async (req,res) => {
 
 export const createReview = async(req,res) => {
     if(!req.body.mechanic) req.body.mechanic = req.params.mechanicId
-    if(!req.body.carowner) req.body.carowner = req.userId
-    console.log(req.body.carowner);
+    if(!req.body.user) req.body.user = req.userId
+    console.log(req.body.user);
 
     const newReview = new Review(req.body);
 

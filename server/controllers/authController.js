@@ -1,4 +1,4 @@
-import CarOwner from '../models/CarOwnerSchema.js'
+import User from '../models/UserSchema.js'
 import Mechanic from '../models/MechanicSchema.js'
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken"
@@ -8,41 +8,33 @@ const generateToken = (user) => {
     return jwt.sign({id:user._id},
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: "10m"      
+            expiresIn: "30m"      
         }
     )
 }
 
 export const register = async(req,res) => {
-    const {username, email, password, phone, role } = req.body;
+    const {username, email, password, role } = req.body;
     try {
         let user;
 
         //chech email 
 
-        const CarOwnerEmailExist = await CarOwner.findOne({email});
-        const CarOwnerPhoneExist =  await CarOwner.findOne({phone});
-        const MechanicPhoneExist =  await Mechanic.findOne({phone});
+        const UserEmailExist = await User.findOne({email});
         const MechanicEmailExist = await Mechanic.findOne({email});
 
-
-        if ( CarOwnerPhoneExist || MechanicPhoneExist ) {
-            return res.status(400).json({message:'phone already exist'})
-        }
-
-        if (CarOwnerEmailExist || MechanicEmailExist) {
+        if (UserEmailExist || MechanicEmailExist) {
             return res.status(400).json({message:'email already exist'})
         }
 
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt)
 
-        if(role==="carowner") {
-            user = new CarOwner({
+        if(role==="user") {
+            user = new User({
                 username,
                 email,
                 password:hashPassword,
-                phone,
                 role
             })
         }
@@ -51,7 +43,6 @@ export const register = async(req,res) => {
                 username,
                 email,
                 password:hashPassword,
-                phone,
                 role
             })
         }
@@ -74,7 +65,7 @@ export const login = async(req,res) => {
     const {email, password} = req.body;
     try {
         let user = null
-        const carowner = await CarOwner.findOne({email});
+        const carowner = await User.findOne({email});
         const mechanic = await Mechanic.findOne({email});
 
         if(carowner) {
@@ -128,7 +119,7 @@ export const logout = (req, res) => {
             httpOnly: true,
             expires: new Date(0)
         })
-      return res.status(200).json({
+        return res.status(200).json({
         success: true,
         message: "Logout success"
       });

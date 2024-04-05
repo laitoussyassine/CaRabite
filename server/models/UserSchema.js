@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
 import Joi from "joi";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 
-const CarOwnerSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
     {
         username: {
             type: String,
@@ -22,21 +20,14 @@ const CarOwnerSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
-        phone: {
-            type: String,
-            required: true,
-            unique: true,
-            trim: true
-        },
         role: {
             type: String,
-            enum: ['carowner', "admin"],
-            default: "carowner",
+            enum: ['user', "admin"],
+            default: "user",
         }
-
     },
     { timestamps: true }
 )
 
-const CarOwner = mongoose.model("CarOwner", CarOwnerSchema);
-export default CarOwner
+const User = mongoose.model("User", UserSchema);
+export default User

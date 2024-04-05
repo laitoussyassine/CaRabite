@@ -5,10 +5,14 @@ import cookieParser from 'cookie-parser';
 import cors from "cors"
 import Database from "./config/connectDb.js";
 import authRoute from './routes/auth.route.js'
-import carOwnerRoute from './routes/carOwner.route.js'
+import userRoute from './routes/user.route.js'
 import MechanicRoute from './routes/mechanic.route.js'
 import ReviewRoute from './routes/review.route.js'
 import RouteNotFound from './middlwares/RouteNoutFound.js';
+import workshopRoute from './routes/workshop.route.js';
+import dataRoutes from './routes/data.route.js';
+import City from './models/CitySchema.js'
+
 const app = express();
 
 
@@ -25,10 +29,24 @@ app.use(express.json());
 app.use(cookieParser())
 app.use(cors());
 app.use('/api/auth', authRoute);
-app.use('/api/carowners', carOwnerRoute);
+app.use('/api/users', userRoute);
 app.use('/api/mechanic', MechanicRoute);
 app.use('/api/reviews', ReviewRoute);
+app.use('/api/workshops', workshopRoute);
+app.use('/api/data', dataRoutes);
+
+app.get('/api/test', (req, res) => {
+    const city = new City({
+        name: "Marrakech"
+    })
+    city.save()
+    res.status(200).json({
+        message: "ok",
+        data: city
+    });
+})
 app.use(RouteNotFound);
+
 
 
 const server = app.listen(port, () => {
