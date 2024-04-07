@@ -1,5 +1,3 @@
-// routes.js
-
 import express from 'express';
 import {
   createWorkshop,
@@ -9,15 +7,13 @@ import {
   deleteWorkshop,
 } from '../controllers/workshopController.js';
 import { authenticate, restrict } from '../utils/verifyToken.js';
-import upload from '../middlwares/multer.js';
 
 const router = express.Router();
 
-// Workshop routes
-router.post('/', authenticate, restrict(["mechanic"]), upload.single('image'), createWorkshop);
+router.post('/', authenticate, restrict(["mechanic"]), createWorkshop);
 router.get('/', authenticate, restrict(["mechanic"]),getWorkshopsByOwner);
 router.get('/:id', authenticate, getWorkshopById);
-router.put('/:id', authenticate, restrict(["mechanic"]),upload.single('image'), updateWorkshop);
+router.put('/:id', authenticate, restrict(["mechanic"]),updateWorkshop);
 router.delete('/:id', authenticate, restrict(["mechanic"]), deleteWorkshop);
 
 // Error handling middleware

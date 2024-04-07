@@ -11,7 +11,9 @@ import ReviewRoute from './routes/review.route.js'
 import RouteNotFound from './middlwares/RouteNoutFound.js';
 import workshopRoute from './routes/workshop.route.js';
 import dataRoutes from './routes/data.route.js';
-import City from './models/CitySchema.js'
+import citiesRoute from './routes/cities.route.js';
+import City from './models/CitySchema.js';
+
 
 const app = express();
 
@@ -25,7 +27,7 @@ db.connectionDb();
 
 const port = process.env.PORT || 3333;
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser())
 app.use(cors());
 app.use('/api/auth', authRoute);
@@ -34,6 +36,7 @@ app.use('/api/mechanic', MechanicRoute);
 app.use('/api/reviews', ReviewRoute);
 app.use('/api/workshops', workshopRoute);
 app.use('/api/data', dataRoutes);
+app.use('/api/cities', citiesRoute);
 
 app.get('/api/test', (req, res) => {
     const city = new City({

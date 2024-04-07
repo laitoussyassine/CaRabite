@@ -1,33 +1,30 @@
-// workshopController.js
-
 import Workshop from '../models/workshopSchema.js';
-import cloudinary from '../utils/cloudinary.js';
-import upload from '../middlwares/multer.js'
-
-// Configure Multer
-
 
 export const createWorkshop = async (req, res) => {
-    try {
-        console.log(req.body)
-        // Upload image to Cloudinary
-        const result = await cloudinary.uploader.upload(req.file.path);
+    const { workshopName, city, services, address, mobile, workshopDescription, timeSlots, image } = req.body;
 
-        // Create workshop with image URL
-        const workshop = await Workshop.create({
-            ...req.body,
+    try {
+        
+        const workshop = new Workshop({
+            workshopName,
+            city,
+            services,
+            address,
+            mobile,
+            workshopDescription,
             owner: req.userId,
-            image: {
-                public_id: result.public_id,
-                url: result.secure_url
-            }
+            timeSlots,
+            image
         });
 
+        await workshop.save();
         res.status(201).json({ success: true, data: workshop });
     } catch (error) {
         res.status(400).json({ success: false, error: error.message });
     }
 };
+
+
 
 export const getWorkshopsByOwner = async (req, res) => {
     try {
@@ -56,7 +53,7 @@ export const updateWorkshop = async (req, res) => {
         let updateData = req.body;
 
         if (req.file) {
-            const result = await cloudinary.uploader.upload(req.file.path);
+            const result = await cloudinary.uploader.upload(req.file?.path);
 
             
             updateData.image = {

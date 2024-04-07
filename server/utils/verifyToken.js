@@ -10,7 +10,7 @@ export const authenticate = async (req, res, next) => {
     if (!token || !token.startsWith('Bearer')) {
         return res.status(401).json({
             success: false,
-            message: 'No token unauthorized'
+            message: 'No token provided'
         });
     }
 
@@ -20,19 +20,20 @@ export const authenticate = async (req, res, next) => {
         req.role = decoded.role;
         next();
     } catch (error) {
-        if (error.name === "TokenExpiredError") {
+        if (error instanceof jwt.TokenExpiredError) {
             return res.status(401).json({
                 success: false,
                 message: 'Token is expired'
             });
         }
-        console.error(error);
+        console.error('Token verification error:', error);
         return res.status(401).json({
             success: false,
             message: 'Invalid token'
         });
     }
 };
+
 
 export const restrict = roles => async (req, res, next) => {
     const userId = req.userId;

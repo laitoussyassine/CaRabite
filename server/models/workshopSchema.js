@@ -6,12 +6,12 @@ const workshopSchema = new mongoose.Schema({
         ref: 'Mechanic',
         required: true
     },
-    workshopName: {
-        typr: String
-    },
     city: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'City'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'City'
+    },
+    workshopName: {
+        type: String
     },
     services: [String],
     address: {
@@ -21,14 +21,8 @@ const workshopSchema = new mongoose.Schema({
         type: String,
     },
     image: { 
-        public_id: {
-            type: String,
-        },
-        url: {
-            type: String,
-            required: true
-        }
-     },
+        type: String
+    },
     workshopDescription: {
         type: String
     },
