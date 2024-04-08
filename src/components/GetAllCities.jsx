@@ -2,7 +2,7 @@ import axios from 'axios';
 import  { useEffect, useState } from 'react'
 import { BASE_URL } from '../config';
 
-const getAllCities = ({value,onChange,name}) => {
+const getAllCities = ({value,onChange,name,className}) => {
     const [cities, setCities] = useState([]);
     useEffect(() => {
     axios.get(`${BASE_URL}/cities`)
@@ -15,7 +15,7 @@ const getAllCities = ({value,onChange,name}) => {
     }, []);
   return (
     <>
-        <select name={name} value={value} onChange={onChange}>
+        <select className={className} name={name} value={value} onChange={onChange}>
             <option value="">Select a City</option>
             {cities.map((city) => (
               <option key={city._id} value={city._id}>
