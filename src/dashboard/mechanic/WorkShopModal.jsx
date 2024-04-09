@@ -8,8 +8,10 @@ import GetAllCities from '../../components/GetAllCities.jsx';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
-
-
+import { MdDelete } from "react-icons/md";
+import { IoAddCircle } from "react-icons/io5";
+import { ImCancelCircle } from "react-icons/im";
+import { FaCalendarDays } from "react-icons/fa6";
 
 const WorkshopModal = ({ isOpen, onClose }) => {
   const handleCloseModal = () => {
@@ -21,6 +23,7 @@ const WorkshopModal = ({ isOpen, onClose }) => {
     city: "",
     address: '',
     mobile: '',
+    services: [],
     workshopDescription: '',
     timeSlots: [],
     image: null
@@ -71,6 +74,21 @@ const WorkshopModal = ({ isOpen, onClose }) => {
   const handleInputChange = (e) => {
     setWorkshopData({ ...workshopData, [e.target.name]: e.target.value });
   };
+
+  const services = ['Mechanic', 'Car Wash', 'Oil Change', 'Tire Rotation'];
+  const handleServiceChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      // Add the selected service to the array of services
+      setWorkshopData({ ...workshopData, services: [...workshopData.services, value] });
+    } else {
+      // Remove the deselected service from the array of services
+      setWorkshopData({
+        ...workshopData,
+        services: workshopData.services.filter((service) => service !== value)
+      });
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -81,6 +99,7 @@ const WorkshopModal = ({ isOpen, onClose }) => {
       formData.append('mobile', workshopData.mobile);
       formData.append('workshopDescription', workshopData.workshopDescription);
       formData.append('timeSlots', JSON.stringify(workshopData.timeSlots)); // Convert array to string
+      formData.append('services', JSON.stringify(workshopData.services)); // Convert array to string
       formData.append('image', workshopData.image);
 
       const response = await axios.post(`${BASE_URL}/workshops`, formData, {
@@ -95,56 +114,60 @@ const WorkshopModal = ({ isOpen, onClose }) => {
     }
     onClose();
   };
-  
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} className="modal">
-      <div className="bg-white px-10 py-6 rounded-lg shadow-xl w-full max-w-lg mx-auto my-48">
+      <div className="bg-white px-10 py-6 rounded-lg shadow-xl w-full max-w-lg mx-auto my-36 max-h-[600px] overflow-y-auto">
         <h2 className="text-2xl font-bold mb-4">Create Workshop</h2>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <div className='flex justify-between mb-5'>
-            <div>
+          <div className='flex justify-between gap-5 mb-5'>
+
             <Input type="text"
-                name="workshopName"
-                placeholder="WorkshopName"
-                value={workshopData.workshopName}
-                onChange={handleInputChange} />
-            </div>
-            <div >
-              <GetAllCities className='w-44  border-slate-300 rounded-md h-9 drop-shadow-sm py-0' name="city" value={workshopData.city} onChange={handleInputChange} />
-            </div>
+              name="workshopName"
+              placeholder="WorkshopName"
+              value={workshopData.workshopName} onChange={handleInputChange} />
+            <GetAllCities className='w-44  border-slate-300 rounded-md h-9 drop-shadow-sm py-0' name="city" value={workshopData.city} onChange={handleInputChange} />
           </div>
-          <div className='flex justify-between mb-5'>
-            <div className=''>
-              <Input
-                type="text"
-                name="address"
-                placeholder="Address"
-                value={workshopData.address}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className=''>
-              <Input
-                type="text"
-                name="mobile"
-                placeholder="Mobile Number"
-                value={workshopData.mobile}
-                onChange={handleInputChange}
-              />
-            </div>
+          <div className='flex gap-5 mb-5'>
+            <Input
+              type="text"
+              name="address"
+              placeholder="Address"
+              value={workshopData.address}
+              onChange={handleInputChange}
+            />
+            <Input
+              type="text"
+              name="mobile"
+              placeholder="Mobile Number"
+              value={workshopData.mobile}
+              onChange={handleInputChange}
+            />
           </div>
-          <div className=''>
-          <Textarea className='w-full'
-              name="workshopDescription"
-              placeholder="Workshop Description"
-              value={workshopData.workshopDescription}
-              onChange={handleInputChange}/>
+          <Textarea className='w-full mb-4'
+            name="workshopDescription"
+            placeholder="Workshop Description"
+            value={workshopData.workshopDescription}
+            onChange={handleInputChange} />
+          <div>
+            <p>Select Services:</p>
+            {services.map((service, index) => (
+              <label key={index}>
+                <input
+                  type="checkbox"
+                  name="services"
+                  value={service}
+                  onChange={handleServiceChange}
+                  checked={workshopData.services.includes(service)}
+                />
+                {service}
+              </label>
+            ))}
           </div>
-          <div className='mb-5 w-2/4'>
+          <div className='mb-5 w-full'>
             {workshopData.timeSlots?.map((item, index) => (
               <div key={index}>
-                <div className='flex mb-[30px] gap-5'>
-                  <div className=''> 
+                <div className='md:flex mb-5 justify-between'>
+                  <div className=''>
                     <p className="">Jour*</p>
                     <select
                       name="day"
@@ -181,21 +204,20 @@ const WorkshopModal = ({ isOpen, onClose }) => {
                   </div>
                 </div>
                 <div className='flex items-center'>
-                <Button className='bg-red-600' onClick={e => deleteTimeSlots(e, index)}>supprimer</Button>
+                  <Button className='bg-red-600' onClick={e => deleteTimeSlots(e, index)}><MdDelete /></Button>
                 </div>
               </div>
             ))}
           </div>
           <div>
-            <Button  className='mb-5' onClick={addTimeSlot}>Ajouter Houraires</Button>
+            <Button className='mb-5' onClick={addTimeSlot}><FaCalendarDays /></Button>
           </div>
           <div className='mb-5'>
             <Input type="file" className="py-0" name="image" accept=".jpeg, .png, .jpg" onChange={handleFileInputChange} />
           </div>
           <div className='flex justify-between items-center'>
             <Button type="submit">Ajouter Workshop</Button>
-            <Button className="bg-red-600" onClick={handleCloseModal} >Anuller</Button>
-
+            <Button className="bg-red-600" onClick={handleCloseModal} ><ImCancelCircle /></Button>
           </div>
         </form>
       </div>

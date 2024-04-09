@@ -4,17 +4,17 @@ export const createWorkshop = async (req, res) => {
     const { workshopName, city, services, address, mobile, workshopDescription, timeSlots, image } = req.body;
 
     try {
-        
+        const parsedServices = JSON.parse(services);
         const workshop = new Workshop({
             workshopName,
             city,
-            services,
             address,
             mobile,
             workshopDescription,
             owner: req.userId,
             timeSlots,
-            image
+            image,
+            services:parsedServices,
         });
 
         await workshop.save();

@@ -39,7 +39,7 @@ const Acoount = () => {
         <div className="flex items-center justify-center h-16 bg-cardBg">
           <span className="text-white font-bold uppercase">Sidebar</span>
         </div>
-        <div className="flex flex-col flex-1 overflow-y-auto">
+        {/* <div className="flex flex-col flex-1 overflow-y-auto">
           <nav className="flex-1 px-2 py-4 bg-cardHoverBg">
             <a href="#" className="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
@@ -66,21 +66,22 @@ const Acoount = () => {
               Settings
             </a>
           </nav>
-        </div>
+        </div> */}
       </div>
-      <Button
-        onClick={handleShowModal}
-        className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
-      >
-        Créer Workshop
-      </Button>
+      
       <WorkShopModal isOpen={showModal} onClose={handleCloseModal}/>
       <div className="flex flex-col flex-1 overflow-y-auto mx-5">
         <div className="p-4">
           <h1 className="text-2xl font-bold">Welcome to my dashboard!</h1>
           <p className="mt-2 text-gray-600">This is an example dashboard using Tailwind CSS.</p>
         </div>
-        
+        <div className='mx-5'>
+          <Button
+          onClick={handleShowModal}
+          className=" text-white py-2 px-4 rounded-md hover:bg-btnbg transition duration-300">
+          Créer Workshop
+        </Button>
+        </div>
         <div className='grid grid-cols-3'>
           {
             ownerWorkshop.map((workshop,index) => (
@@ -90,8 +91,31 @@ const Acoount = () => {
                 <img src={workshop.image} alt="University of Southern California" className="absolute inset-0 h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
                 <h3 className="z-10 mt-3 text-3xl font-bold text-white">{workshop.city.name}</h3>
+                <h3 className="z-10 mt-3 text-3xl font-bold text-white">{workshop.owner.username}</h3>
                 <div className="z-10 gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">{workshop.workshopName}</div>
               </article>
+                {
+                workshop.timeSlots && JSON.parse(workshop.timeSlots).map((item,index) => (
+                  <ul key={index}>
+                  <li>
+                    <p className='text-black'>Day: {item.day}</p>
+                  </li>
+                  <li>
+                    <p className='text-black'>Ouverture: {item.startingTime}</p>
+                  </li>
+                  <li>
+                    <p className='text-black'>Férmeture: {item.endingTime}</p>
+                  </li>
+                </ul>
+                ))}
+                <div>
+            Services:
+            {workshop.services.map((service, index) => (
+              <span key={index}>
+                <p>{service}</p>
+              </span>
+            ))}
+          </div>
             </div>
             ))
           }
