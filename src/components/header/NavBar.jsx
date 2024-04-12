@@ -45,10 +45,11 @@ const NavBar = () => {
             )}
           </button>
         </div>
-        <div className={`${menuOpen ? 'flex flex-col' : 'hidden'} w-full md:w-auto md:flex flex-row text-left text-bold mt-5 md:mt-0`}>
-          <Link to={'/'} className="block md:inline-block text-lg text-black hover:text-mainColoe font-bold px-3 py-3   ">Home</Link>
-          <Link to={'/about'} className="block md:inline-block text-lg text-black hover:text-mainColoe font-bold px-3 py-3   ">About</Link>
-          <Link to={'/contact'} className="block md:inline-block text-lg text-black hover:text-mainColoe font-bold px-3 py-3   ">Contact</Link>
+        <div className={`${menuOpen ? 'flex flex-col' : 'hidden'} w-full md:w-auto md:flex flex-row text-left font-semibold mt-5 md:mt-0`}>
+          <Link to={'/'} className="block md:inline-block text-lg text-black hover:text-mainColoe font-semibold px-3 py-3   ">Home</Link>
+          <Link to={'/about'} className="block md:inline-block text-lg text-black hover:text-mainColoe font-semibold px-3 py-3   ">About</Link>
+          <Link to={'/workshops'} className="block md:inline-block text-lg text-black hover:text-mainColoe font-semibold px-3 py-3   ">Find Workshop</Link>
+          <Link to={'/contact'} className="block md:inline-block text-lg text-black hover:text-mainColoe font-semibold px-3 py-3   ">Contact</Link>
         </div>
         <div className={`${menuOpen ? 'flex flex-col gap-4' : 'hidden'} w-full md:w-auto md:flex gap-1`}>
           <Link to="/login" className={`toggle ${menuOpen ? 'flex' : 'hidden'} md:flex w-full md:w-auto px-4 py-2 text-right bg-mainColoe font-mono hover:bg-blue-500 text-white `}>Login</Link>

@@ -1,5 +1,3 @@
-// authMiddleware.js
-
 import jwt from 'jsonwebtoken';
 import Mechanic from '../models/MechanicSchema.js';
 import User from '../models/UserSchema.js';
@@ -7,7 +5,7 @@ import User from '../models/UserSchema.js';
 export const authenticate = async (req, res, next) => {
     const token = req.headers.authorization;
 
-    if (!token || !token.startsWith('Bearer')) {
+    if (!token || !token.startsWith('Bearer ')) {
         return res.status(401).json({
             success: false,
             message: 'No token provided'

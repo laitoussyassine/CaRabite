@@ -5,7 +5,7 @@ import workshopReducer from "./features/workshop/workshopSlice";
 const store = configureStore({
     reducer: {
         auth: authReducer,
-        workshop: workshopReducer,
+        workshops: workshopReducer
     },
     devTools: true
 })

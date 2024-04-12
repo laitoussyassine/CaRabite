@@ -116,7 +116,7 @@ const WorkshopModal = ({ isOpen, onClose }) => {
   };
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} className="modal">
-      <div className="bg-white px-10 py-6 rounded-lg shadow-xl w-full max-w-lg mx-auto my-36 max-h-[600px] overflow-y-auto">
+      <div className="bg-white px-10 py-6 rounded-lg shadow-xl w-full max-w-lg mx-auto my-28 max-h-[500px] overflow-y-auto">
         <h2 className="text-2xl font-bold mb-4">Create Workshop</h2>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className='flex justify-between gap-5 mb-5'>

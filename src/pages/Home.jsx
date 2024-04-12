@@ -6,8 +6,29 @@ import service1 from '../images/homePage/service/service1.svg'
 import AutoPlaySlider from '../components/sliderHome/AutoPlaySlider.jsx';
 import SearchComponent from '../components/search/SearchComponent.jsx';
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 const Home = () => {
 
+  const [workshops, setWorkshops] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleSearch = async (city, services) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/workshops/search`, {
+        params: { cityId: city, services, page: currentPage },
+      });
+
+      setWorkshops(response.data.data);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.error('Error searching workshops:', error);
+    }
+  };
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+    handleSearch(city, services); // Re-fetch workshops for the selected page
+  };
 
   return (
     <>

@@ -1,19 +1,11 @@
-// routes.js
+// workshopsRoutes.js
 
 import express from 'express';
-import {
-  searchWorkshops,
-  getAllWorkshops,
-  getWorkshopById,
-} from '../controllers/searchController.js';
+import { getAllWorkshops } from '../controllers/searchController.js';
 
 const router = express.Router();
 
-// Workshop search route
-router.get('/workshops/search', searchWorkshops);
-
-// Workshop routes for normal users
-router.get('/workshops', getAllWorkshops);
-router.get('/workshops/:id', getWorkshopById);
+// Public route for searching workshops by city (no authentication required)
+router.get('/', getAllWorkshops);
 
 export default router;

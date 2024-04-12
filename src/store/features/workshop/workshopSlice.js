@@ -1,31 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getWorkshopsByOwner } from './workshopAction.js';
+import { fetchWorkshops } from './workshopAction';
 
-const workshopSlice = createSlice({
-  name: 'workshop',
-  initialState: {
-    workshops: [],
-    loading: false,
-    error: null
-  },
-  reducers: {
-    
-  },
+const initialState = {
+  workshops: [],
+  loading: false,
+  message: '',
+};
+
+const workshopsSlice = createSlice({
+  name: 'workshops',
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getWorkshopsByOwner.pending, (state) => {
+      .addCase(fetchWorkshops.pending, (state) => {
         state.loading = true;
-        state.error = null;
+        state.message = '';
       })
-      .addCase(getWorkshopsByOwner.fulfilled, (state, action) => {
+      .addCase(fetchWorkshops.fulfilled, (state, action) => {
         state.loading = false;
         state.workshops = action.payload;
+        state.message = '';
       })
-      .addCase(getWorkshopsByOwner.rejected, (state, action) => {
+      .addCase(fetchWorkshops.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.workshops = [];
+        state.message = action.payload || 'Failed to fetch workshops';
       });
-  }
+  },
 });
 
-export default workshopSlice.reducer;
+export default workshopsSlice.reducer;

@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import Acoount from "./dashboard/user/Acoount"
 import Dashboard from "./dashboard/mechanic/Dashboard"
 import ProtectedRoutes from "./routes/ProtectedRoutes"
+import WorkshopsPage from "./pages/WorkshopsPage"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register"element={<Register />}/>
+        <Route path="/workshops"element={<WorkshopsPage />}/>
         <Route path="user/profile/me" element={ 
         <ProtectedRoutes allowedRole={['user']}>
           <Acoount />

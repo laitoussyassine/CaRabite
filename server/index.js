@@ -12,6 +12,7 @@ import RouteNotFound from './middlwares/RouteNoutFound.js';
 import workshopRoute from './routes/workshop.route.js';
 import dataRoutes from './routes/data.route.js';
 import citiesRoute from './routes/cities.route.js';
+import searchWorkshopsRoutes  from './routes/search.route.js';
 import City from './models/CitySchema.js';
 
 
@@ -37,6 +38,7 @@ app.use('/api/reviews', ReviewRoute);
 app.use('/api/workshops', workshopRoute);
 app.use('/api/data', dataRoutes);
 app.use('/api/cities', citiesRoute);
+app.use('/api/findWorkshops', searchWorkshopsRoutes);
 
 app.get('/api/test', (req, res) => {
     const city = new City({

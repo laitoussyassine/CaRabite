@@ -5,9 +5,10 @@ export const createWorkshop = async (req, res) => {
 
     try {
         const parsedServices = JSON.parse(services);
+        const lowerCaseCity = city.toLowerCase();
         const workshop = new Workshop({
             workshopName,
-            city,
+            city:lowerCaseCity,
             address,
             mobile,
             workshopDescription,
@@ -90,3 +91,5 @@ export const deleteWorkshop = async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 };
+
+

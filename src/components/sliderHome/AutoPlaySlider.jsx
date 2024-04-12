@@ -67,7 +67,7 @@ const AutoPlaySlider = () => {
   };
 
   return (
-    <div className="relative overflow-hidden h-96">
+    <div className="relative overflow-hidden h-[500px]">
       <Slider {...settings} ref={sliderRef}>
         {slidesData.map((slide, index) => (
           <div key={index}>
