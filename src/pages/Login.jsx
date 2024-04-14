@@ -22,7 +22,7 @@ function Login() {
         setFormData({ ...formData, [e.target.name]: e.target.value })
         console.log(e.target.value);
     }
-    const { loading, message, isLoginSuccess, role } = useSelector((state) => state.auth);
+    const { loading, message, isLoginSuccess,error } = useSelector((state) => state.auth);
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -30,15 +30,24 @@ function Login() {
     }
     useEffect(() => {
         if (message !== "") {
-            toast(message, {
-                duration: 2000
-            })
-            dispatch(clearMessage());
+            if(error) {
+                toast.error(message, {
+                    duration: 2000
+                })
+                dispatch(clearMessage());
+            } else {
+                if(!error) {
+                    toast(message, {
+                        duration: 2000
+                    })
+                    dispatch(clearMessage());
+                }
+            }
             if (isLoginSuccess) {
                 navigate('/')
             }
         }
-    }, [isLoginSuccess, role, message])
+    }, [isLoginSuccess, message])
     return (
         <>
             <section className="grid grid-cols-4 mx-20 my-10">

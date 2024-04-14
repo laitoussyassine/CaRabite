@@ -8,7 +8,8 @@ const initialState = {
     isRegisterSuccess: false,
     isLoginSuccess: false,
     message: "",
-    logOutMessage: ""
+    logOutMessage: "",
+    error: false
 }
 
 const authSlice = createSlice({
@@ -21,16 +22,19 @@ const authSlice = createSlice({
     },
     extraReducers : (builder) => {
         builder.addCase(register.pending, (state) => {
-            state.loading = true
+            state.loading = true,
+            state.error=false
         })
         builder.addCase(register.fulfilled, (state, action) => {
             state.loading=false,
             state.isRegisterSuccess = true,
+            state.error=false,
             state.message = action.payload.message
         })
         builder.addCase(register.rejected, (state, action) => {
             state.isRegisterSuccess = false,
             state.loading=false,
+            state.error=true,
             state.message = action.payload.message
         })
         builder.addCase(login.pending, (state) => {
@@ -41,14 +45,16 @@ const authSlice = createSlice({
             state.isLoginSuccess = true,
             state.user = action.payload.token,
             state.role = action.payload.role,
-            state.message = action.payload.message
-            localStorage.setItem('token', JSON.stringify(action.payload.token));
-            localStorage.setItem('role', JSON.stringify(action.payload.role));
+            state.message = action.payload.message,
+            state.error = false,
+            localStorage.setItem('token', JSON.stringify(action.payload.token)),
+            localStorage.setItem('role', JSON.stringify(action.payload.role))
         })
         builder.addCase(login.rejected, (state, action) => {
             state.loading = false,
             state.isLoginSuccess = false,
-            state.message = action.payload.message
+            state.message = action.payload.message,
+            state.error = true
         })
         builder.addCase(logout.fulfilled, (state, action) => {
             state.loggedOut = true,

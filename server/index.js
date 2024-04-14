@@ -1,4 +1,4 @@
-import express, { application } from "express";
+import express from "express";
 import  { config }  from 'dotenv';
 config();
 import cookieParser from 'cookie-parser';
@@ -21,9 +21,10 @@ const app = express();
 
 
 
-
+console.log(process.env.DB_URL, process.env.DB_NAME);
 // connect to db
 const db = new Database(process.env.DB_URL, process.env.DB_NAME);
+
 db.connectionDb();
 
 const port = process.env.PORT || 3333;

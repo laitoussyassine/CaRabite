@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
 import { MdDelete } from "react-icons/md";
-import { IoAddCircle } from "react-icons/io5";
 import { ImCancelCircle } from "react-icons/im";
 import { FaCalendarDays } from "react-icons/fa6";
+import toast from 'react-hot-toast';
 
 const WorkshopModal = ({ isOpen, onClose }) => {
   const handleCloseModal = () => {
@@ -74,7 +74,7 @@ const WorkshopModal = ({ isOpen, onClose }) => {
   const handleInputChange = (e) => {
     setWorkshopData({ ...workshopData, [e.target.name]: e.target.value });
   };
-
+ 
   const services = ['Mechanic', 'Car Wash', 'Oil Change', 'Tire Rotation'];
   const handleServiceChange = (e) => {
     const { value, checked } = e.target;
@@ -114,10 +114,12 @@ const WorkshopModal = ({ isOpen, onClose }) => {
     }
     onClose();
   };
+
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} className="modal">
       <div className="bg-white px-10 py-6 rounded-lg shadow-xl w-full max-w-lg mx-auto my-28 max-h-[500px] overflow-y-auto">
         <h2 className="text-2xl font-bold mb-4">Create Workshop</h2>
+
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className='flex justify-between gap-5 mb-5'>
 
@@ -136,7 +138,7 @@ const WorkshopModal = ({ isOpen, onClose }) => {
               onChange={handleInputChange}
             />
             <Input
-              type="text"
+              type="Number"
               name="mobile"
               placeholder="Mobile Number"
               value={workshopData.mobile}

@@ -15,9 +15,8 @@ const WorkshopList = () => {
   console.log(workshops);
 
   useEffect(() => {
-    // Dispatch fetchWorkshops action to fetch workshops data
     dispatch(fetchWorkshops());
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
@@ -28,7 +27,7 @@ const WorkshopList = () => {
             </div>
           {message && <h3>{message}</h3>}
           {!loading && !message && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
+            <div className="w-fit mx-auto grid grid-cols-8 justify-items-center justify-center gap-y-20 gap-x-14 mt-20 mb-5">
               {workshops.map((workshop) => (
                 <WorkshopCard key={workshop._id} workshop={workshop} />
               ))}

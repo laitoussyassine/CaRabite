@@ -22,17 +22,27 @@ function Register() {
         password: "",
         role: "user"
     });
-    const { loading, message, isRegisterSuccess } = useSelector((state) => state.auth);
+    const { loading, message, isRegisterSuccess,error } = useSelector((state) => state.auth);
 
     const handleInputChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }    
     useEffect(() => {
         if (message !== "") {
-            toast(message, {
-                duration: 2000
-            })
-            dispatch(clearMessage());
+            if(error) {
+                toast.error(message, {
+                    duration: 2000
+                })
+                dispatch(clearMessage());
+            }
+            else {
+                if(!error) {
+                    toast(message, {
+                        duration: 2000
+                    })
+                    dispatch(clearMessage());
+                }
+            }
             if (isRegisterSuccess) {
                 navigate('/login')
             }

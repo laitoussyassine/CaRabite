@@ -4,7 +4,7 @@ import {
   getWorkshopsByOwner,
   getWorkshopById,
   updateWorkshop,
-  deleteWorkshop,
+  deleteWorkshopById,
 } from '../controllers/workshopController.js';
 import { authenticate, restrict } from '../utils/verifyToken.js';
 
@@ -14,7 +14,7 @@ router.post('/', authenticate, restrict(["mechanic"]), createWorkshop);
 router.get('/', authenticate, restrict(["mechanic"]),getWorkshopsByOwner);
 router.get('/:id', authenticate, getWorkshopById);
 router.put('/:id', authenticate, restrict(["mechanic"]),updateWorkshop);
-router.delete('/:id', authenticate, restrict(["mechanic"]), deleteWorkshop);
+router.delete('/:id',  deleteWorkshopById);
 
 // Error handling middleware
 router.use((err, req, res, next) => {

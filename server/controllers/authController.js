@@ -2,47 +2,53 @@ import User from '../models/UserSchema.js';
 import Mechanic from '../models/MechanicSchema.js';
 import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
+import validateUserCreation from '../middlwares/validateUsers.js';
 
 
 const generateToken = (user) => {
-    return jwt.sign({id:user._id, role:user.role},
+    return jwt.sign({ id: user._id, role: user.role },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: "1h"      
+            expiresIn: "1h"
         }
     )
 }
 
-export const register = async(req,res) => {
-    const {username, email, password, role } = req.body;
+export const register = async (req, res) => {
+    const { username, email, password, role } = req.body;
     try {
         let user;
 
-        //chech email 
+        const validationUser = validateUserCreation(req.body);
+        if (validationUser.error) {
+            return res.status(400).send({
+                message: validationUser.error.message
+            });
+        }
 
-        const UserEmailExist = await User.findOne({email});
-        const MechanicEmailExist = await Mechanic.findOne({email});
+        const UserEmailExist = await User.findOne({ email });
+        const MechanicEmailExist = await Mechanic.findOne({ email });
 
         if (UserEmailExist || MechanicEmailExist) {
-            return res.status(400).json({message:'email already exist'})
+            return res.status(400).json({ message: 'email already exist' })
         }
 
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt)
 
-        if(role==="user") {
+        if (role === "user") {
             user = new User({
                 username,
                 email,
-                password:hashPassword,
+                password: hashPassword,
                 role
             })
         }
-        if (role==="mechanic") {
+        if (role === "mechanic") {
             user = new Mechanic({
                 username,
                 email,
-                password:hashPassword,
+                password: hashPassword,
                 role
             })
         }
@@ -61,21 +67,27 @@ export const register = async(req,res) => {
     }
 }
 
-export const login = async(req,res) => {
-    const {email, password} = req.body;
+export const login = async (req, res) => {
+    const { email, password } = req.body;
     try {
+        const validationUser = validateUserCreation(req.body);
+        if (validationUser.error) {
+            return res.status(400).send({
+                message: validationUser.error.message
+            });
+        }
         let user = null
-        const carowner = await User.findOne({email});
-        const mechanic = await Mechanic.findOne({email});
+        const carowner = await User.findOne({ email });
+        const mechanic = await Mechanic.findOne({ email });
 
-        if(carowner) {
+        if (carowner) {
             user = carowner
         }
-        if(mechanic) {
+        if (mechanic) {
             user = mechanic
         }
         // check if user exist
-        if(!user) {
+        if (!user) {
             return res.status(404).json({
                 success: false,
                 message: "User Not Found"
@@ -87,7 +99,7 @@ export const login = async(req,res) => {
 
         if (!passwordMatch) {
             return res.status(400).json({
-                success:false,
+                success: false,
                 message: "Invalid Email or Password"
             })
         }
@@ -95,22 +107,22 @@ export const login = async(req,res) => {
         // get token
         const token = generateToken(user)
 
-        const {password: _, role, ...rest} = user._doc;
+        const { password: _, role, ...rest } = user._doc;
 
         return res.status(200).json({
-            success:true,
+            success: true,
             message: "Successfully Login",
             token,
-            data:{...rest},
+            data: { ...rest },
             role
         })
     } catch (error) {
         res.status(500).json({
-            status:false,
-            message:"Failed To Login"
+            status: false,
+            message: "Failed To Login"
         })
     }
-} 
+}
 
 
 export const logout = (req, res) => {
@@ -120,13 +132,13 @@ export const logout = (req, res) => {
             expires: new Date(0)
         })
         return res.status(200).json({
-        success: true,
-        message: "Logout success"
-      });
+            success: true,
+            message: "Logout success"
+        });
     } catch (err) {
-      return res.status(500).json({
-        success: false,
-        message: err.message || "Oops something went wrong"
-      });
+        return res.status(500).json({
+            success: false,
+            message: err.message || "Oops something went wrong"
+        });
     }
-  }
+}

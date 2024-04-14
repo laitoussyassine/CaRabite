@@ -16,22 +16,24 @@ const WorkshopsPage = () => {
       dispatch(fetchWorkshops(trimmedQuery));
     }
   };
-
+  useEffect(() => {
+    handleSearch()
+  },[])
   
   return (
     <div>
       <section className="mt-5">
         <div className="container text-center">
           <h2 className="heading">Find a Workshop</h2>
-          <div className="max-w-[570px] mt-[30px] mx-auto bg-[#0066ff2c] rounded-md flex items-center justify-between">
+          <div className="max-w-[570px] mt-[30px] mx-auto bg-[#0066ff15] rounded-md flex items-center justify-between">
             <input
               type="search"
-              className="py-4 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer placeholder-textColor"
+              className="py-4 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer placeholder-textColor border-none"
               placeholder="Search Workshop"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            <Button onClick={handleSearch} className="h-full mt-0 rounded-r-md">
+            <Button onClick={handleSearch} className="h-full mt-0 rounded-sm bg-mainColoe">
               Search
             </Button>
           </div>

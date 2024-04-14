@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchWorkshops } from './workshopAction';
+import { fetchWorkshops, deleteWorkshop } from './workshopAction.js';
 
 const initialState = {
   workshops: [],
   loading: false,
   message: '',
+  deleting: false,
+  error: null,
 };
 
 const workshopsSlice = createSlice({
@@ -26,6 +28,18 @@ const workshopsSlice = createSlice({
         state.loading = false;
         state.workshops = [];
         state.message = action.payload || 'Failed to fetch workshops';
+      })
+      .addCase(deleteWorkshop.pending, (state) => {
+        state.deleting = true;
+        state.error = null;
+      })
+      .addCase(deleteWorkshop.fulfilled, (state) => {
+        state.deleting = false;
+        state.error = null;
+      })
+      .addCase(deleteWorkshop.rejected, (state, action) => {
+        state.deleting = false;
+        state.error = action.payload.error || 'An error occurred while deleting the workshop.';
       });
   },
 });

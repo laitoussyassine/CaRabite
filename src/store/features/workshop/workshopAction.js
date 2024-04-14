@@ -28,3 +28,34 @@ export const fetchWorkshops = createAsyncThunk(
     }
   }
 );
+
+
+export const fetchWorkshopById = createAsyncThunk(
+  'workshops/fetchWorkshopById',
+  async (workshopId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/findWorkshops/${workshopId}`);
+
+      if (response.data.success) {
+        return response.data.data; // Return the workshop data on success
+      } else {
+        return rejectWithValue(response.data.error); // Return error message on failure
+      }
+    } catch (error) {
+      return rejectWithValue(error.message); // Return network error message
+    }
+  }
+);
+
+export const deleteWorkshop = createAsyncThunk(
+  'workshops/deleteWorkshop',
+  async (workshopId, { rejectWithValue }) => {
+    try {
+      // Make the DELETE request to your API
+      const response = await axios.delete(`${BASE_URL}/workshops/${workshopId}`);
+      return response.data; // Return the deleted workshop data
+    } catch (error) {
+      return rejectWithValue(error.response.data); // Handle errors
+    }
+  }
+);
