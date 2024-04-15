@@ -59,3 +59,29 @@ export const deleteWorkshop = createAsyncThunk(
     }
   }
 );
+
+
+export const OwnerWorkshopDetails = createAsyncThunk(
+  'workshops/OwnerWorkshopDetails',
+  async (workshopId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/workshops/${workshopId}`);
+      return response.data.data;
+    } catch (error) {
+      console.log(error.message);
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const updateWorkshop = createAsyncThunk(
+  'workshops/updateWorkshop',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`${BASE_URL}workshops/${payload.id}`, payload.data);
+      return response.data.data; // Return updated workshop data
+    } catch (error) {
+      return rejectWithValue(error.response.data); // Return error message on failure
+    }
+  }
+);

@@ -8,8 +8,9 @@ import { Link } from 'react-router-dom';
 import { deleteWorkshop } from '../../store/features/workshop/workshopAction.js';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { GridLoader } from 'react-spinners';
 
-const MySwal = withReactContent(Swal); // Create a SweetAlert instance with React support
+const MySwal = withReactContent(Swal);
 
 
 const Acoount = () => {
@@ -27,15 +28,16 @@ const Acoount = () => {
     try {
       const workshops = await axios.get(`${BASE_URL}/workshops`, {
         headers: {
-          'Content-Type': 'application/json', // Set content type to JSON
-          Authorization: `Bearer ${user}`, // Include authorization token
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user}`,
         },
       });
       setOwnerWorkshop(workshops.data.data);
     } catch (error) {
       console.error('Error creating workshop:', error);
     }
-  })
+  });
+  const { loading } = useSelector((state) => state.workshops);
   const handleDelete = (workshopId) => {
     MySwal.fire({
       title: 'Are you sure?',
@@ -51,7 +53,7 @@ const Acoount = () => {
         dispatch(deleteWorkshop(workshopId))
           .then(() => {
             MySwal.fire('Deleted!', 'Workshop has been deleted.', 'success');
-            getAllWorkshops();
+              getAllWorkshops();
           })
           .catch((error) => {
             console.error('Error deleting workshop:', error);
@@ -118,25 +120,25 @@ const Acoount = () => {
           {
             ownerWorkshop.map((workshop) => (
               <div key={workshop._id} className='lg:col-span-1 col-span-full gap-5'>
-                <Link to={""} className="p-8 max-w-lg border border-indigo-300 rounded-2xl hover:shadow-xl hover:shadow-indigo-50 flex flex-col items-center mb-7">
+                <div  className="p-8 max-w-lg border border-indigo-300 rounded-2xl hover:shadow-xl hover:shadow-indigo-50 flex flex-col items-center mb-7">
                   <img src={workshop.image} className="shadow rounded-lg overflow-hidden border h-32 w-40 object-cover" alt="Exercise Image" />
                   <div className="mt-8">
                     <h4 className="font-bold text-xl">{workshop.workshopName}</h4>
                     <p className="mt-2 text-gray-600">{workshop.address}</p>
                     <div className="mt-5 flex gap-3">
-                      <Button type="button" className="inline-flex items-center rounded-md border border-transparent bg-mainColoe px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900">
+                      <Link to={`/myWorkshop/${workshop._id}`} type="button" className="inline-flex items-center rounded-md border border-transparent bg-mainColoe px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900">
                         view
-                      </Button>
+                      </Link>
                       <Button
                       type="button"
                       onClick={() => handleDelete(workshop._id)}
                       className="inline-flex items-center rounded-md border border-transparent bg-red-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900"
                     >
-                      {status === 'loading' ? 'Deleting...' : 'Delete'}
+                      delete
                     </Button>
                     </div>
                   </div>
-                </Link>
+                </div>
               </div>
 
             ))

@@ -11,6 +11,7 @@ import WorkshopsPage from "./pages/WorkshopsPage"
 import WorkshopDetails from "./components/workshops/WorkshopDetails"
 import Contact from "./pages/Contact"
 import About from "./pages/About"
+import MyWorkshopDetails from "./dashboard/mechanic/MyWorkshopDetails"
 
 function App() {
   return (
@@ -26,9 +27,11 @@ function App() {
         <Route path="/register"element={<Register />}/>
         <Route path="/workshops"element={<WorkshopsPage />}/>
         <Route path="/workshop/:id" element={<WorkshopDetails />}/>
-        <Route path="user/profile/me" element={ 
-        <ProtectedRoutes allowedRole={['user']}>
-          <Acoount />
+        <Route path="/myWorkshop/:id" element={ <ProtectedRoutes allowedRole={['mechanic']}>
+        <MyWorkshopDetails />
+        </ProtectedRoutes>}/>
+        <Route path="user/profile/me" element={ <ProtectedRoutes allowedRole={['user']}>
+        <Acoount />
         </ProtectedRoutes>}/>
         <Route path="mechanic/profile/me" element={ 
         <ProtectedRoutes allowedRole={['mechanic']}>

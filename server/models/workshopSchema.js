@@ -17,6 +17,7 @@ const workshopSchema = new mongoose.Schema({
     address: {
         type: String
         
+        
     },
     mobile: {
         type: String,

@@ -45,8 +45,9 @@ export const getWorkshopsByOwner = async (req, res) => {
 
 // Controller to get workshop by ID
 export const getWorkshopById = async (req, res) => {
+    const { id } = req.params;
     try {
-        const workshop = await Workshop.findOne({ _id: req.params.id, owner: req.userId });
+        const workshop = await Workshop.findById(id).populate('city owner').exec();
         if (!workshop) {
             return res.status(404).json({ success: false, error: 'Workshop not found' });
         }
@@ -99,7 +100,7 @@ export const updateWorkshop = async (req, res) => {
                 services: parsedServices
             },
             { new: true } // Return the updated workshop after the update operation
-        );
+        ).populate('city').exec();
 
         if (!workshop) {
             return res.status(404).json({ success: false, message: 'Workshop not found' });

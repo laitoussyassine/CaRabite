@@ -12,6 +12,7 @@ import { MdDelete } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
 import { FaCalendarDays } from "react-icons/fa6";
 import toast from 'react-hot-toast';
+import { GridLoader } from 'react-spinners';
 
 const WorkshopModal = ({ isOpen, onClose }) => {
   const handleCloseModal = () => {
@@ -89,8 +90,11 @@ const WorkshopModal = ({ isOpen, onClose }) => {
       });
     }
   };
+  const [loading, setLoading] = useState(false)
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    
     try {
       const formData = new FormData()
       formData.append('workshopName', workshopData.workshopName);
@@ -109,6 +113,17 @@ const WorkshopModal = ({ isOpen, onClose }) => {
         },
       });
       console.log('Workshop created successfully:', response.data);
+      setWorkshopData({
+        workshopName: "",
+        city: "",
+        address: "",
+        mobile: "",
+        services: [],
+        workshopDescription: "",
+        timeSlots: [],
+        image: null,
+      });
+      setLoading(false);
     } catch (error) {
       console.error('Error creating workshop:', error);
     }
@@ -118,8 +133,13 @@ const WorkshopModal = ({ isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} className="modal">
       <div className="bg-white px-10 py-6 rounded-lg shadow-xl w-full max-w-lg mx-auto my-28 max-h-[500px] overflow-y-auto">
-        <h2 className="text-2xl font-bold mb-4">Create Workshop</h2>
-
+        <h2 className="text-2xl font-bold mb-4">Create</h2>
+        
+        {loading ?  
+          <div className="flex items-center justify-center">
+          <GridLoader color="#032098" size={15} />
+        </div>
+        : (
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className='flex justify-between gap-5 mb-5'>
 
@@ -154,14 +174,15 @@ const WorkshopModal = ({ isOpen, onClose }) => {
             <p>Select Services:</p>
             {services.map((service, index) => (
               <label key={index}>
-                <input
+                <input className='rounded-full'
                   type="checkbox"
                   name="services"
                   value={service}
                   onChange={handleServiceChange}
                   checked={workshopData.services.includes(service)}
                 />
-                {service}
+                <span className='mr-2'>{service}</span>
+                
               </label>
             ))}
           </div>
@@ -212,16 +233,19 @@ const WorkshopModal = ({ isOpen, onClose }) => {
             ))}
           </div>
           <div>
-            <Button className='mb-5' onClick={addTimeSlot}><FaCalendarDays /></Button>
+            <Button className='mb-5' onClick={addTimeSlot}><span className='mr-2'>Add TimeSlots</span><FaCalendarDays /></Button>
           </div>
           <div className='mb-5'>
             <Input type="file" className="py-0" name="image" accept=".jpeg, .png, .jpg" onChange={handleFileInputChange} />
           </div>
           <div className='flex justify-between items-center'>
-            <Button type="submit">Ajouter Workshop</Button>
+            <Button type="submit">Create Workshop</Button>
             <Button className="bg-red-600" onClick={handleCloseModal} ><ImCancelCircle /></Button>
           </div>
         </form>
+
+        )
+        }
       </div>
     </Modal>
   );

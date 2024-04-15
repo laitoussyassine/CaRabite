@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post('/', authenticate, restrict(["mechanic"]), createWorkshop);
 router.get('/', authenticate, restrict(["mechanic"]),getWorkshopsByOwner);
-router.get('/:id', authenticate, getWorkshopById);
+router.get('/:id', getWorkshopById);
 router.put('/:id', authenticate, restrict(["mechanic"]),updateWorkshop);
 router.delete('/:id',  deleteWorkshopById);
 

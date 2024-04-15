@@ -9,11 +9,6 @@ const WorkshopCard = ({ workshop }) => {
 
     return (
 
-
-
-
-        
-
             <div key={workshop._id} className="w-72 lg:col-span-2 col-span-full bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
                 <Link to={`/workshop/${workshop._id}`}>
                     <img src={image} alt="Product" className="h-80 w-72 object-cover rounded-t-xl" />
@@ -30,12 +25,7 @@ const WorkshopCard = ({ workshop }) => {
                         </div>
                     </div>
                 </Link>
-            </div>
-
-        
-              
-                
-        
+            </div>        
    
   )
 }
