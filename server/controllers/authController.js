@@ -19,7 +19,7 @@ export const register = async (req, res) => {
     try {
         let user;
 
-        const validationUser = validateUserCreation(req.body);
+        const validationUser = validateUserCreation({username, email, password});
         if (validationUser.error) {
             return res.status(400).send({
                 message: validationUser.error.message

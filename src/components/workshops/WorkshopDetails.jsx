@@ -63,7 +63,7 @@ const WorkshopDetails = () => {
                             </div>
                         </div>
 
-                        <div className="mt-[30px] bg-white h-fit py-5 px-10 w-2/12 rounded-lg">
+                        <div className="mt-[30px] bg-white h-fit py-5 px-10 w-1/5 rounded-lg">
                             <p className="text_para mt-0 font-bold text-cardHoverBg">
                                 Available Time Slots:
                             </p>

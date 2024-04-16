@@ -12,7 +12,7 @@ import WorkshopDetails from "./components/workshops/WorkshopDetails"
 import Contact from "./pages/Contact"
 import About from "./pages/About"
 import MyWorkshopDetails from "./dashboard/mechanic/MyWorkshopDetails"
-import Footer from "./components/header/footer/Footer"
+import Footer from "./components/footer/Footer"
 
 
 function App() {

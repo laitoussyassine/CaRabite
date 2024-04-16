@@ -22,7 +22,7 @@ const WorkshopsPage = () => {
   
   return (
     <>
-      <section className="mt-5 min-h-screen">
+      <section className="pt-10 min-h-screen bg-gray-50">
         <div className="container text-center">
           <h2 className="heading font-bold text-xl">Find a Workshop</h2>
           <div className="max-w-[570px] mt-[30px] mx-auto bg-[#0066ff15] rounded-md flex items-center justify-between">

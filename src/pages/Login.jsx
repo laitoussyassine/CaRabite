@@ -23,7 +23,7 @@ function Login() {
         setFormData({ ...formData, [e.target.name]: e.target.value })
         console.log(e.target.value);
     }
-    const { loading, message, isLoginSuccess,error } = useSelector((state) => state.auth);
+    const { loading, message, isLoginSuccess,error, role } = useSelector((state) => state.auth);
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -45,7 +45,11 @@ function Login() {
                 }
             }
             if (isLoginSuccess) {
-                navigate('/')
+                if(role === "mechanic")
+                navigate('/mechanic/profile/me');
+                else {
+                    navigate('/user/profile/me');
+                }
             }
         }
     }, [isLoginSuccess, message])

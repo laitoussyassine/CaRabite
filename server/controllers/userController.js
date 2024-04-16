@@ -76,7 +76,7 @@ export const getUserProfile = async(req,res) => {
     const userID = req.userId;
 
     try {
-        const user = await User.find(userID);
+        const user = await User.findById(userID);
 
         if(!user){
             return res.status(404).json({
@@ -91,10 +91,11 @@ export const getUserProfile = async(req,res) => {
             data:{...rest}
         })
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: 'Oops Somthing Went Wrong'
-        })
+        console.error('Error fetching user profile:', error);
+    return res.status(500).json({
+        success: false,
+        message: 'Oops Something Went Wrong'
+    });
     }
 
 }

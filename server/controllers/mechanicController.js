@@ -93,10 +93,9 @@ export const deleteMechanic = async(req,res) => {
 
 
 export const getMechanicProfile = async(req,res) => {
-    const mechanicID = req.mechanicId;
-
+    const mechanicID = req.userId;
     try {
-        const mechanic = await Mechanic.find(mechanicID);
+        const mechanic = await Mechanic.findById(mechanicID);
 
         if(!mechanic){
             return res.status(404).json({

@@ -9,5 +9,4 @@ const validateUserSchema = Joi.object({
 const validateUserCreation = (data) => {
   return validateUserSchema.validate(data, { abortEarly: false });
 };
-
 export default validateUserCreation;

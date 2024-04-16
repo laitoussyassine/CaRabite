@@ -24,9 +24,35 @@ const Acoount = () => {
     dispatch(logout());
   }
 
+  const [userInfo, setUserInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [load, setLoad] = useState(false);
-  const [userName, setUserName] = useState('')
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/mechanic/profile/me`, {
+          headers: {
+            'Authorization': `Bearer ${user}`
+          }
+        });
+        setUserInfo(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchUserProfile();
+    }
+  }, [user]);
+
+
+
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -44,7 +70,6 @@ const Acoount = () => {
             },
         });
         setOwnerWorkshop(workshops.data.data);
-        setUserName(workshops.data.data[0].owner.username);
     } catch (error) {
         console.error('Error fetching workshops:', error);
     } finally {
@@ -115,7 +140,7 @@ const Acoount = () => {
       <WorkShopModal isOpen={showModal} onClose={handleCloseModal} />
       <div className="flex flex-col flex-1 overflow-y-auto mx-5">
         <div className="p-4">
-          <h1 className="text-2xl font-bold">Welcome {userName}!</h1>
+          <h1 className="text-2xl font-bold text-mainColoe"><span className='text-black'>Welcome</span> {loading ? "" : userInfo.username} !</h1>
         </div>
         <div className='mx-5'>
           <Button
@@ -124,7 +149,7 @@ const Acoount = () => {
             Create Your Workshop
           </Button>
         </div>
-        <div className="grid grid-cols-3 mt-10">
+        <div className="grid grid-cols-3 gap-8 mt-10">
                     {load ? ( // Display loading spinner if loading is true
                         <div className="col-span-full flex justify-center items-center">
                             <GridLoader color="#032098" size={15} margin={2} />

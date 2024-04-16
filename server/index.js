@@ -10,7 +10,6 @@ import MechanicRoute from './routes/mechanic.route.js'
 import ReviewRoute from './routes/review.route.js'
 import RouteNotFound from './middlwares/RouteNoutFound.js';
 import workshopRoute from './routes/workshop.route.js';
-// import dataRoutes from './routes/data.route.js';
 import citiesRoute from './routes/cities.route.js';
 import searchWorkshopsRoutes  from './routes/search.route.js';
 import City from './models/CitySchema.js';

@@ -16,6 +16,6 @@ router.use("/:mechanicId/reviews", ReviewRoute);
 router.get('/:id',getSingleMechanic);
 router.put('/:id',authenticate,restrict(["mechanic"]),updateMechanic);
 router.delete('/:id',authenticate,restrict(["mechanic"]),deleteMechanic);
-router.get('/profile/me',authenticate,restrict(["mechanic"]),getMechanicProfile);
+router.get('/profile/me',authenticate,getMechanicProfile);
 
 export default router;

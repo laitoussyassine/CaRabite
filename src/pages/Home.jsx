@@ -15,7 +15,8 @@ const Home = () => {
   return (
     <>
         <AutoPlaySlider />
-      <div className='mx-auto w-5/6'>
+      <div className=' bg-gray-50  flex justify-center items-center'>
+      <div className='mx-20'>
         
         <div className='mt-48 mb-20 mx-20 flex flex-col gap-10 '>
           <div className=''>
@@ -84,6 +85,7 @@ const Home = () => {
           </div>
           <ProvideServices />
         </div>
+      </div>
       </div>
     </>
   );
