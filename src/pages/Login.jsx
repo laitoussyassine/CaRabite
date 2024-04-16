@@ -10,6 +10,7 @@ import Input from '../components/fields/Input';
 import Div from '../components/fields/Div';
 import ButtonAuth from '../components/fields/ButtonAuth';
 import LabelField from '../components/fields/LabelField';
+import famillyServices from '../images/login_register/famillyServices.jpg'
 function Login() {
 
     const dispatch = useDispatch()
@@ -50,12 +51,12 @@ function Login() {
     }, [isLoginSuccess, message])
     return (
         <>
-            <section className="grid grid-cols-4 mx-20 my-10">
+            <section className="grid grid-cols-4 mx-auto w-4/5 h-[800px] items-center">
                 <div className="lg:col-span-2 col-span-full">
-                    <img className="block h-full w-full object-cover" src={robot} alt="" />
+                    <img className="block h-full w-full object-contain rounded-xl" src={famillyServices} alt="" />
                 </div>
                 <div className="lg:col-span-2 col-span-full">
-                    <div className="w-2/3 mx-auto  ">
+                    <div className="w-2/3 mx-auto">
                         <div className="">
                             <h3 className="font-heading text-2xl text-gray-900 font-semibold mb-2">Sign In to your account</h3>
                             <form onSubmit={submitHandler}>

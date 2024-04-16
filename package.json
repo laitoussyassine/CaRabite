@@ -9,8 +9,7 @@
     "dev": "concurrently \"npm run dev:back\" \"npm run dev:front\"",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "proxy": "http://localhost:3200"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",

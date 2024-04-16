@@ -21,7 +21,6 @@ const app = express();
 
 
 
-console.log(process.env.DB_URL, process.env.DB_NAME);
 // connect to db
 const db = new Database(process.env.DB_URL, process.env.DB_NAME);
 

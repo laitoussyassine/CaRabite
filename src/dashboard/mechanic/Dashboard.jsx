@@ -9,6 +9,9 @@ import { deleteWorkshop } from '../../store/features/workshop/workshopAction.js'
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { GridLoader } from 'react-spinners';
+import { logout } from "../../store/features/auth/authAction.js";
+import { IoMdLogOut } from "react-icons/io";
+
 
 const MySwal = withReactContent(Swal);
 
@@ -16,7 +19,14 @@ const MySwal = withReactContent(Swal);
 const Acoount = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const logoutHandler = (e) => {
+    e.preventDefault()
+    dispatch(logout());
+  }
+
   const [showModal, setShowModal] = useState(false);
+  const [load, setLoad] = useState(false);
+  const [userName, setUserName] = useState('')
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -26,18 +36,21 @@ const Acoount = () => {
   const [ownerWorkshop, setOwnerWorkshop] = useState([]);
   const getAllWorkshops = useCallback(async () => {
     try {
-      const workshops = await axios.get(`${BASE_URL}/workshops`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user}`,
-        },
-      });
-      setOwnerWorkshop(workshops.data.data);
+        setLoad(true);
+        const workshops = await axios.get(`${BASE_URL}/workshops`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${user}`,
+            },
+        });
+        setOwnerWorkshop(workshops.data.data);
+        setUserName(workshops.data.data[0].owner.username);
     } catch (error) {
-      console.error('Error creating workshop:', error);
+        console.error('Error fetching workshops:', error);
+    } finally {
+        setLoad(false);
     }
-  });
-  const { loading } = useSelector((state) => state.workshops);
+}, [user]);
   const handleDelete = (workshopId) => {
     MySwal.fire({
       title: 'Are you sure?',
@@ -64,7 +77,7 @@ const Acoount = () => {
   };
   useEffect(() => {
     getAllWorkshops();
-  }, [getAllWorkshops]);
+  }, []);
 
 
   return (
@@ -73,7 +86,7 @@ const Acoount = () => {
         <div className="flex items-center justify-center h-16 bg-cardBg">
           <span className="text-white font-bold uppercase">Sidebar</span>
         </div>
-        {/* <div className="flex flex-col flex-1 overflow-y-auto">
+        <div className="flex flex-col flex-1 overflow-y-auto">
           <nav className="flex-1 px-2 py-4 bg-cardHoverBg">
             <a href="#" className="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
@@ -87,63 +100,69 @@ const Acoount = () => {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12" />
-              </svg>
-              Messages
-            </a>
-            <a href="#" className="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                   d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
               Settings
             </a>
+            {user && <button onClick={logoutHandler} className={`flex w-full gap-3 items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 `}>
+            <IoMdLogOut size={20} />
+              Logout
+            </button>}
           </nav>
-        </div> */}
+        </div>
       </div>
 
       <WorkShopModal isOpen={showModal} onClose={handleCloseModal} />
       <div className="flex flex-col flex-1 overflow-y-auto mx-5">
         <div className="p-4">
-          <h1 className="text-2xl font-bold">Welcome to my dashboard!</h1>
-          <p className="mt-2 text-gray-600">This is an example dashboard using Tailwind CSS.</p>
+          <h1 className="text-2xl font-bold">Welcome {userName}!</h1>
         </div>
         <div className='mx-5'>
           <Button
             onClick={handleShowModal}
             className=" text-white py-2 px-4 rounded-md hover:bg-btnbg transition duration-300">
-            Créer Workshop
+            Create Your Workshop
           </Button>
         </div>
-        <div className='grid grid-cols-3 mt-10'>
-          {
-            ownerWorkshop.map((workshop) => (
-              <div key={workshop._id} className='lg:col-span-1 col-span-full gap-5'>
-                <div  className="p-8 max-w-lg border border-indigo-300 rounded-2xl hover:shadow-xl hover:shadow-indigo-50 flex flex-col items-center mb-7">
-                  <img src={workshop.image} className="shadow rounded-lg overflow-hidden border h-32 w-40 object-cover" alt="Exercise Image" />
-                  <div className="mt-8">
-                    <h4 className="font-bold text-xl">{workshop.workshopName}</h4>
-                    <p className="mt-2 text-gray-600">{workshop.address}</p>
-                    <div className="mt-5 flex gap-3">
-                      <Link to={`/myWorkshop/${workshop._id}`} type="button" className="inline-flex items-center rounded-md border border-transparent bg-mainColoe px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900">
-                        view
-                      </Link>
-                      <Button
-                      type="button"
-                      onClick={() => handleDelete(workshop._id)}
-                      className="inline-flex items-center rounded-md border border-transparent bg-red-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900"
-                    >
-                      delete
-                    </Button>
-                    </div>
-                  </div>
+        <div className="grid grid-cols-3 mt-10">
+                    {load ? ( // Display loading spinner if loading is true
+                        <div className="col-span-full flex justify-center items-center">
+                            <GridLoader color="#032098" size={15} margin={2} />
+                        </div>
+                    ) : (
+                        ownerWorkshop.map((workshop) => (
+                            <div key={workshop._id} className="lg:col-span-1 col-span-full gap-5">
+                                <div className="p-8 max-w-lg border border-indigo-300 rounded-2xl hover:shadow-xl hover:shadow-indigo-50 flex flex-col items-center mb-7">
+                                    <img
+                                        src={workshop.image}
+                                        className="shadow rounded-lg overflow-hidden border h-32 w-40 object-cover"
+                                        alt="Workshop Image"
+                                    />
+                                    <div className="mt-8">
+                                        <h4 className="font-bold text-xl">{workshop.workshopName}</h4>
+                                        <p className="mt-2 text-gray-600">{workshop.address}</p>
+                                        <div className="mt-5 flex gap-3">
+                                            <Link
+                                                to={`/myWorkshop/${workshop._id}`}
+                                                type="button"
+                                                className="inline-flex items-center rounded-md border border-transparent bg-mainColoe px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900"
+                                            >
+                                                View
+                                            </Link>
+                                            <Button
+                                                type="button"
+                                                onClick={() => handleDelete(workshop._id)}
+                                                className="inline-flex items-center rounded-md border border-transparent bg-red-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900"
+                                            >
+                                                Delete
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
-              </div>
-
-            ))
-          }
-        </div>
       </div>
 
     </div>

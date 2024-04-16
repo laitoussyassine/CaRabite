@@ -12,6 +12,8 @@ import WorkshopDetails from "./components/workshops/WorkshopDetails"
 import Contact from "./pages/Contact"
 import About from "./pages/About"
 import MyWorkshopDetails from "./dashboard/mechanic/MyWorkshopDetails"
+import Footer from "./components/header/footer/Footer"
+
 
 function App() {
   return (
@@ -38,6 +40,7 @@ function App() {
           <Dashboard />
         </ProtectedRoutes> }/>
       </Routes>
+      <Footer />
     </>
   )
 }

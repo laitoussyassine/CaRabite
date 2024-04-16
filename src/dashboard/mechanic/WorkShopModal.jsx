@@ -11,7 +11,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { MdDelete } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
 import { FaCalendarDays } from "react-icons/fa6";
-import toast from 'react-hot-toast';
 import { GridLoader } from 'react-spinners';
 
 const WorkshopModal = ({ isOpen, onClose }) => {
@@ -90,7 +89,8 @@ const WorkshopModal = ({ isOpen, onClose }) => {
       });
     }
   };
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -236,6 +236,7 @@ const WorkshopModal = ({ isOpen, onClose }) => {
             <Button className='mb-5' onClick={addTimeSlot}><span className='mr-2'>Add TimeSlots</span><FaCalendarDays /></Button>
           </div>
           <div className='mb-5'>
+            <p className='font-semibolds '>Workshop Image</p>
             <Input type="file" className="py-0" name="image" accept=".jpeg, .png, .jpg" onChange={handleFileInputChange} />
           </div>
           <div className='flex justify-between items-center'>
