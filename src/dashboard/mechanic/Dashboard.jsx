@@ -19,6 +19,7 @@ const MySwal = withReactContent(Swal);
 const Acoount = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const [created, setCreated] = useState(false);
   const logoutHandler = (e) => {
     e.preventDefault()
     dispatch(logout());
@@ -53,9 +54,7 @@ const Acoount = () => {
 
 
 
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
+
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -76,6 +75,12 @@ const Acoount = () => {
         setLoad(false);
     }
 }, [user]);
+
+const handleShowModal = () => {
+  setShowModal(true);
+  
+};
+
   const handleDelete = (workshopId) => {
     MySwal.fire({
       title: 'Are you sure?',
@@ -103,6 +108,11 @@ const Acoount = () => {
   useEffect(() => {
     getAllWorkshops();
   }, []);
+  useEffect(() => {
+    if(created) {
+      getAllWorkshops();
+    }
+  }, [created]);
 
 
   return (
@@ -137,7 +147,7 @@ const Acoount = () => {
         </div>
       </div>
 
-      <WorkShopModal isOpen={showModal} onClose={handleCloseModal} />
+      <WorkShopModal setCreated={setCreated} isOpen={showModal} onClose={handleCloseModal} />
       <div className="flex flex-col flex-1 overflow-y-auto mx-5">
         <div className="p-4">
           <h1 className="text-2xl font-bold text-mainColoe"><span className='text-black'>Welcome</span> {loading ? "" : userInfo.username} !</h1>

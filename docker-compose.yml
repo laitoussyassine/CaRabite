@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  server:
+    image: node:16
+    container_name: server
+    working_dir: /app
+    command: npm run dev:back
+    ports:
+      - "3201:3200"
+    volumes:
+      - "./:/app"
+  client:
+    image: node:16
+    container_name: client
+    working_dir: /app
+    command: npm run dev:front
+    ports:
+      - "5173:5173"
+    volumes:
+      - "./:/app"

@@ -13,7 +13,7 @@ import { ImCancelCircle } from "react-icons/im";
 import { FaCalendarDays } from "react-icons/fa6";
 import { GridLoader } from 'react-spinners';
 
-const WorkshopModal = ({ isOpen, onClose }) => {
+const WorkshopModal = ({ isOpen, onClose, setCreated }) => {
   const handleCloseModal = () => {
     onClose();
   };
@@ -95,6 +95,7 @@ const WorkshopModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     setLoading(true);
     
+    
     try {
       const formData = new FormData()
       formData.append('workshopName', workshopData.workshopName);
@@ -124,6 +125,7 @@ const WorkshopModal = ({ isOpen, onClose }) => {
         image: null,
       });
       setLoading(false);
+      setCreated(true);
     } catch (error) {
       console.error('Error creating workshop:', error);
     }

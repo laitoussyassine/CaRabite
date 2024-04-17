@@ -74,7 +74,7 @@ const Account = () => {
         ) : (
           userInfo && (
             <>
-              <h1 className="text-2xl font-bold">Welcome {userInfo.username}!</h1>
+              <h1 className="text-2xl font-bold">Welcome {loading ? '' : userInfo.username }!</h1>
               {/* Display other user profile information here */}
             </>
           )
