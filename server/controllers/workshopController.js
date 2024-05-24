@@ -17,7 +17,7 @@ export const createWorkshop = async (req, res) => {
             owner: req.userId,
             timeSlots,
             image,
-            services: parsedServices,
+            services: parsedServices,   
         });
 
         // Save the workshop instance to the database
@@ -47,7 +47,7 @@ export const getWorkshopsByOwner = async (req, res) => {
 export const getWorkshopById = async (req, res) => {
     const { id } = req.params;
     try {
-        const workshop = await Workshop.findById(id).populate('city owner').exec();
+        const workshop = await Workshop.findById(id).populate('city owner reviews').exec();
         if (!workshop) {
             return res.status(404).json({ success: false, error: 'Workshop not found' });
         }

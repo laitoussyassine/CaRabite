@@ -1,4 +1,4 @@
-import Mechanic from '../models/MechanicSchema.js'
+import Workshop from '../models/workshopSchema.js'
 import Review from '../models/ReviewSchema.js'
 
 
@@ -19,15 +19,15 @@ export const getAllReviews = async (req,res) => {
 }
 
 export const createReview = async(req,res) => {
-    if(!req.body.mechanic) req.body.mechanic = req.params.mechanicId
-    if(!req.body.user) req.body.user = req.userId
-    console.log(req.body.user);
+    if(!req.body.workshop) req.body.workshop = req.params.workshopId;
+    if(!req.body.user) req.body.user = req.userId;
+    console.log(req.body.workshop);
 
     const newReview = new Review(req.body);
 
     try {
         const saveReview = await newReview.save();
-        await Mechanic.findByIdAndUpdate(req.body.mechanic, {
+        await Workshop.findByIdAndUpdate(req.body.workshop, {
             $push:{reviews: saveReview._id}
         })
         

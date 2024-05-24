@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
-import Mechanic from "./MechanicSchema.js";
+import Workshop from "./workshopSchema.js";
 
 const reviewSchema = new mongoose.Schema(
   {
-    mechanic: {
+    workshop: {
       type: mongoose.Types.ObjectId,
-      ref: "Mechanic",
+      ref: "Workshop",
     },
-    carowner: {
+    user: {
       type: mongoose.Types.ObjectId,
-      ref: "CarOwner",
+      ref: "User",
     },
     reviewText: {
       type: String,
@@ -28,33 +28,33 @@ const reviewSchema = new mongoose.Schema(
 
 reviewSchema.pre(/^find/, function(next){
   this.populate({
-    path: "carowner",
+    path: "user",
     select: "username"
   });
   next();
 });
 
-reviewSchema.statics.calcAverageRatings = async function (mechanicId) {
+reviewSchema.statics.calcAverageRatings = async function (workshopId) {
   // this points the current review
   const stats = await this.aggregate([
     {
-    $match: { mechanic: mechanicId },
+    $match: { workshop: workshopId },
     },
     {
       $group: {
-        _id: "$mechanic",
+        _id: "$workshop",
         numOfRating: { $sum: 1 },
         avgRating: {$avg: "$rating" },
       },
     },
   ]);
-  await Mechanic.findByIdAndUpdate(mechanicId, {
+  await Workshop.findByIdAndUpdate(workshopId, {
     totalRating: stats[0].numOfRating,
     averageRating: stats[0].avgRating
   })
   };
   reviewSchema.post("save", function () {
-  this.constructor.calcAverageRatings (this.mechanic);
+  this.constructor.calcAverageRatings (this.workshop);
   });
 
 export default mongoose.model("Review", reviewSchema);

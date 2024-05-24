@@ -3,7 +3,6 @@ import { BASE_URL } from '../../config.js'
 import { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { convertTobase64 } from '../../utils/convertTobase64.js';
 import GetAllCities from '../../components/GetAllCities.jsx';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,12 +11,14 @@ import { MdDelete } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
 import { FaCalendarDays } from "react-icons/fa6";
 import { GridLoader } from 'react-spinners';
+import uploadImageCloudinary from "../../utils/uploadCloudinary.js";
 
 const WorkshopModal = ({ isOpen, onClose, setCreated }) => {
   const handleCloseModal = () => {
     onClose();
   };
   const { user } = useSelector((state) => state.auth);
+  const [selectedFile ,setSelectedFile] = useState(null);
   const [workshopData, setWorkshopData] = useState({
     workshopName: "",
     city: "",
@@ -26,13 +27,15 @@ const WorkshopModal = ({ isOpen, onClose, setCreated }) => {
     services: [],
     workshopDescription: '',
     timeSlots: [],
-    image: null
+    image: selectedFile
   });
   const handleFileInputChange = async event => {
     const file = event.target.files[0];
-    const base64 = await convertTobase64(file)
-    console.log(base64);
-    setWorkshopData({ ...workshopData, image: base64 })
+    const data = await uploadImageCloudinary(file);
+    console.log("data",data);
+    setSelectedFile(data.url);
+    setWorkshopData({... workshopData, image: data.url})
+    console.log("image file",data.url);
   }
   const handleReusableInputChangeFunc = (key, index, event) => {
     const { name, value } = event.target;
@@ -131,10 +134,11 @@ const WorkshopModal = ({ isOpen, onClose, setCreated }) => {
     }
     onClose();
   };
+  
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} className="modal">
-      <div className="bg-white px-10 py-6 rounded-lg shadow-xl w-full max-w-lg mx-auto my-28 max-h-[500px] overflow-y-auto">
+      <div className="bg-white px-10 py-6 rounded-lg shadow-xl w-full max-w-lg mx-auto my-10 max-h-[500px] overflow-y-auto">
         <h2 className="text-2xl font-bold mb-4">Create</h2>
         
         {loading ?  
@@ -239,7 +243,7 @@ const WorkshopModal = ({ isOpen, onClose, setCreated }) => {
           </div>
           <div className='mb-5'>
             <p className='font-semibolds '>Workshop Image</p>
-            <Input type="file" className="py-0" name="image" accept=".jpeg, .png, .jpg" onChange={handleFileInputChange} />
+            <Input type="file" className="py-0" name="image" accept=".jpeg, .png, .jpg" onChange={handleFileInputChange}  />
           </div>
           <div className='flex justify-between items-center'>
             <Button type="submit">Create Workshop</Button>

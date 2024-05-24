@@ -34,7 +34,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 app.use('/api/mechanic', MechanicRoute);
 app.use('/api/reviews', ReviewRoute);
-app.use('/api/workshops', workshopRoute);
+app.use('/api/workshops', workshopRoute);   
 app.use('/api/cities', citiesRoute);
 app.use('/api/findWorkshops', searchWorkshopsRoutes);
 

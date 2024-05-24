@@ -7,8 +7,12 @@ import {
   deleteWorkshopById,
 } from '../controllers/workshopController.js';
 import { authenticate, restrict } from '../utils/verifyToken.js';
+import reviewRouter from './review.route.js'
 
 const router = express.Router();
+
+// nested route
+router.use("/:workshopId/reviews", reviewRouter);
 
 router.post('/', authenticate, restrict(["mechanic"]), createWorkshop);
 router.get('/', authenticate, restrict(["mechanic"]),getWorkshopsByOwner);
